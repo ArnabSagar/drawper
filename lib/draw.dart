@@ -15,14 +15,15 @@ class _DrawState extends State<Draw> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Today's Prompt: Cats"),
+        title: Text("Draw Something"),
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         children: <Widget>[
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 20.0),
             child: Text(
-              'Draw Something!',
+              'Today\'s Prompt is: Cats',
               style: TextStyle(fontSize: 20.0),
             ),
           ),
