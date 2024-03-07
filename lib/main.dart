@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: const ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(Colors.purple),
                 foregroundColor: MaterialStatePropertyAll(Colors.white),
-                overlayColor: MaterialStatePropertyAll(Color.fromARGB(255, 112, 29, 126))
+                overlayColor: MaterialStatePropertyAll(Color.fromARGB(255, 112, 29, 126)),
               ),
               onPressed: () => {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage())),
