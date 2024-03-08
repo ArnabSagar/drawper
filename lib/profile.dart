@@ -1,3 +1,4 @@
+import 'package:drawper/menudrawer.dart';
 import 'package:flutter/material.dart';
 
 import 'feed.dart';
@@ -27,77 +28,8 @@ class _ProfileState extends State<Profile> {
         ),
         backgroundColor: Colors.pink.shade500,
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            ListTile(
-              leading: const Icon(
-                Icons.list_alt_outlined,
-              ),
-              title: const Text('Feed'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Feed()));
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.person,
-              ),
-              title: const Text('Your @Profile'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.settings,
-              ),
-              title: const Text('Settings'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Settings()));
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.settings,
-              ),
-              title: const Text('Draw First Info Page'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const DrawFirst()));
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.exit_to_app,
-              ),
-              title: const Text('Log Out'),
-              onTap: () {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const MyHomePage(title: "Drawper Login Page")),
-                    (route) => false);
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.help_center_outlined,
-              ),
-              title: const Text('Help'),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
-      body: Center(child: Text("PROFILE PAGE")),
+      drawer: const MenuDrawer(),
+      body: const Center(child: Text("PROFILE PAGE")),
     );
   }
 }

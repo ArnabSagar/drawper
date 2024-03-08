@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui';
 import 'dart:io';
+import 'feed.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -43,7 +44,6 @@ class _DrawState extends State<Draw> {
               style: TextStyle(fontSize: 20.0),
             ),
           ),
-          const SizedBox(height: 35,),
           Expanded(
             child: Column(
               children: <Widget>[
@@ -158,7 +158,8 @@ class _DrawState extends State<Draw> {
           if (imageUint8List != null) {
             // Save the screenshot as an image file
             saveImage(imageUint8List);
-            
+            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const Feed()));
           }
         },
         child: const Text('Done!'),
@@ -376,9 +377,9 @@ class _StrokeWidthShapePickerDialogState extends State<StrokeWidthShapePickerDia
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text('Stroke Width', style: TextStyle(fontSize: 20),),
-                          Text(_strokeWidth.toStringAsFixed(2), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                          Text("${_strokeWidth.toStringAsFixed(2)}  ", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                           SizedBox(
-                            height: 20,
+                            height: 30,
                             width: 30,
                             child: CustomPaint(
                               painter: StrokeWidthIndicatorPainter(strokeWidth: _strokeWidth),
@@ -386,19 +387,16 @@ class _StrokeWidthShapePickerDialogState extends State<StrokeWidthShapePickerDia
                           ),
                         ],
                       ),
-                      SizedBox(
-                        width: double.infinity, // Take up the whole width
-                        child: Expanded( child: Slider(
-                          value: _strokeWidth,
-                          min: 0.0,
-                          max: 15.0,
-                          divisions: 10, // Set the number of divisions for the slider
-                          onChanged: (value) {
-                            setState(() {
-                              _strokeWidth = value;
-                            });
-                          },
-                        )),
+                      Slider(
+                        value: _strokeWidth,
+                        min: 0.0,
+                        max: 15.0,
+                        divisions: 10,
+                        onChanged: (value) {
+                          setState(() {
+                            _strokeWidth = value;
+                          });
+                        },
                       ),
                     ]
                   ),
@@ -477,7 +475,7 @@ class StrokeWidthIndicatorPainter extends CustomPainter {
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
 
-    canvas.drawLine(Offset(0, size.height / 2), Offset(size.width, size.height / 2), paint);
+    canvas.drawLine(Offset(0, size.height / 2), Offset(20, size.height / 2), paint);
   }
 
   @override

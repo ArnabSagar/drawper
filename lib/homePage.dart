@@ -6,6 +6,7 @@ import 'profile.dart';
 import 'settings.dart';
 import 'main.dart';
 import 'draw_first.dart';
+import 'menudrawer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -30,89 +31,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            // DrawerHeader(
-            //     decoration: const BoxDecoration(
-            //       color: Colors.blue,
-            //     ),
-            //     child: Container(
-            //         alignment: Alignment.center,
-            //         height: 5,
-            //         child: const Text(
-            //           "Options",
-            //           style:
-            //               TextStyle(fontWeight: FontWeight.w20, fontSize: 20),
-            //         ))),
-            ListTile(
-              leading: const Icon(
-                Icons.list_alt_outlined,
-              ),
-              title: const Text('Feed'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.person,
-              ),
-              title: const Text('Your @Profile'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Profile()));
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.settings,
-              ),
-              title: const Text('Settings'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Settings()));
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.settings,
-              ),
-              title: const Text('Draw First Info Page'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const DrawFirst()));
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.exit_to_app,
-              ),
-              title: const Text('Log Out'),
-              onTap: () {
-                // Navigator.pop(context);
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const MyHomePage(title: "Drawper Login Page")),
-                    (route) => false);
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.help_center_outlined,
-              ),
-              title: const Text('Help'),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
+      drawer: const MenuDrawer(),
       body: _children[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 32.0,
