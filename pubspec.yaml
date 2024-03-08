@@ -64,6 +64,11 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+    - android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+    - android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+    - android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+    - android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
     - assets/icons/ink_eraser.svg
     - assets/icons/ink_eraser_off.svg
     - assets/icons/logo.png
