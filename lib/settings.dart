@@ -7,21 +7,21 @@ import 'settings.dart';
 import 'main.dart';
 import 'draw_first.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+class Settings extends StatefulWidget {
+  const Settings({Key? key}) : super(key: key);
 
   @override
-  _ProfileState createState() => _ProfileState();
+  _SettingsState createState() => _SettingsState();
 }
 
-class _ProfileState extends State<Profile> {
+class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          "Profile",
+          "Settings",
           style: TextStyle(color: Colors.white),
           textAlign: TextAlign.center,
         ),
@@ -49,6 +49,8 @@ class _ProfileState extends State<Profile> {
               title: const Text('Your @Profile'),
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Profile()));
               },
             ),
             ListTile(
@@ -58,8 +60,6 @@ class _ProfileState extends State<Profile> {
               title: const Text('Settings'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Settings()));
               },
             ),
             ListTile(
@@ -97,7 +97,7 @@ class _ProfileState extends State<Profile> {
           ],
         ),
       ),
-      body: Center(child: Text("PROFILE PAGE")),
+      body: Center(child: Text("Settings Page")),
     );
   }
 }

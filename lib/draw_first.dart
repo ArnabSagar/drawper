@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'feed.dart';
 import 'draw.dart';
 import 'profile.dart';
 import 'settings.dart';
 import 'main.dart';
-import 'draw_first.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+class DrawFirst extends StatefulWidget {
+  const DrawFirst({Key? key}) : super(key: key);
 
   @override
-  _ProfileState createState() => _ProfileState();
+  _DrawFirstState createState() => _DrawFirstState();
 }
 
-class _ProfileState extends State<Profile> {
+class _DrawFirstState extends State<DrawFirst> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          "Profile",
+          "INFO",
           style: TextStyle(color: Colors.white),
           textAlign: TextAlign.center,
         ),
@@ -49,6 +49,8 @@ class _ProfileState extends State<Profile> {
               title: const Text('Your @Profile'),
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Profile()));
               },
             ),
             ListTile(
@@ -69,8 +71,6 @@ class _ProfileState extends State<Profile> {
               title: const Text('Draw First Info Page'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const DrawFirst()));
               },
             ),
             ListTile(
@@ -97,7 +97,38 @@ class _ProfileState extends State<Profile> {
           ],
         ),
       ),
-      body: Center(child: Text("PROFILE PAGE")),
+      body: Stack(
+        children: [
+          const Positioned(
+              top: 75,
+              left: 50,
+              child: Flexible(
+                child: Text(
+                  "Drawp \ntoday’s \ndrawing!",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w800, fontSize: 48, height: 1.25),
+                  softWrap: true,
+                  overflow: TextOverflow.visible,
+                ),
+              )),
+          const Positioned(
+            top: 275,
+            left: 50,
+            child: Text(
+              """You can’t see other people’s \ndrawings until you drawp. \nThis makes your drawp 100%\noriginal.""",
+              style: TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.w700, height: 1),
+            ),
+          ),
+          Positioned(
+              top: 375,
+              left: 100,
+              child: IconButton(
+                icon: Image.asset('assets/icons/tap_to_start_drawing.png'),
+                onPressed: () {},
+              )),
+        ],
+      ),
     );
   }
 }

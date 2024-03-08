@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'homePage.dart';
+import 'feed.dart';
 
 void main() {
   runApp(const MyApp());
@@ -70,16 +71,21 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(height: 50),
             TextButton(
-              style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.purple),
-                foregroundColor: MaterialStatePropertyAll(Colors.white),
-                overlayColor: MaterialStatePropertyAll(Color.fromARGB(255, 112, 29, 126)),
-              ),
-              onPressed: () => {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage())),
-              },
-              child: const Text("Login", style: TextStyle(fontWeight: FontWeight.bold))
-            ),
+                style: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.purple),
+                  foregroundColor: MaterialStatePropertyAll(Colors.white),
+                  overlayColor: MaterialStatePropertyAll(
+                      Color.fromARGB(255, 112, 29, 126)),
+                ),
+                onPressed: () => {
+                      Navigator.pop(context),
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Feed()),
+                          (route) => false)
+                    },
+                child: const Text("Login",
+                    style: TextStyle(fontWeight: FontWeight.bold))),
             const SizedBox(height: 70),
             const TextButton(
               onPressed: _create,
