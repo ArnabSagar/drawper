@@ -2,7 +2,6 @@ import 'package:drawper/draw_first.dart';
 import 'package:flutter/material.dart';
 
 import 'feed.dart';
-import 'draw.dart';
 import 'profile.dart';
 import 'settings.dart';
 import 'main.dart';

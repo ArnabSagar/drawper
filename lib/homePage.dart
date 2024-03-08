@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'feed.dart';
-import 'draw.dart';
+import 'search.dart';
 import 'profile.dart';
-import 'settings.dart';
-import 'main.dart';
-import 'draw_first.dart';
 import 'menudrawer.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,15 +23,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   //This is a screens list which you want to navigate through BottomNavigationBar
-  final List<Widget> _children = [const Feed(), const Draw(), const Profile()];
+  final List<Widget> _children = [const Feed(), const Search(), const Profile()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       drawer: const MenuDrawer(),
       body: _children[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        iconSize: 30.0,
+        iconSize: 25,
         showSelectedLabels: false,
         showUnselectedLabels: false,
         selectedItemColor: Colors.white,
@@ -45,12 +42,12 @@ class _HomePageState extends State<HomePage> {
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
-            label: "Home",
+            label: "Feed",
             icon: Icon(Icons.home_filled),
           ),
           BottomNavigationBarItem(
-            label: "Draw",
-            icon: Icon(Icons.post_add),
+            label: "Search",
+            icon: Icon(Icons.search),
           ),
           BottomNavigationBarItem(
             label: "Profile",

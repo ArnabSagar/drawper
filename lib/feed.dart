@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'feed.dart';
-import 'draw.dart';
-import 'profile.dart';
-import 'settings.dart';
-import 'main.dart';
-import 'draw_first.dart';
-import 'homePage.dart';
 import 'menudrawer.dart';
 
 class Feed extends StatefulWidget {

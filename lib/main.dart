@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'homePage.dart';
 import 'feed.dart';
+import 'draw_first.dart';
 
 void main() {
   runApp(const MyApp());
@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.pop(context),
                       Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (context) => const Feed()),
+                          MaterialPageRoute(builder: (context) => const DrawFirst()), // TODO ADD LOGIC FOR CHECKING IF THEY HAVE DONE THE DRAWP OF THE DAY OR NOT YET
                           (route) => false)
                     },
                 child: const Text("Login",

@@ -4,13 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-import 'feed.dart';
-import 'draw.dart';
-import 'profile.dart';
-import 'settings.dart';
-import 'main.dart';
-import 'draw_first.dart';
-
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
 
@@ -79,28 +72,28 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
-          "Profile",
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          _profileData.isEmpty ? "" : "@${_profileData['username']}",
+          style: const TextStyle(color: Colors.white),
           textAlign: TextAlign.center,
         ),
         backgroundColor: Colors.purple.shade900,
       ),
       drawer: const MenuDrawer(),
       resizeToAvoidBottomInset: false,
-      body: _profileData.isEmpty
+      body: _profileData.isEmpty // TODO ADD FUTURE BUILDER HERE INSTEAD?
         ? const Center(child: CircularProgressIndicator()) // Show loading indicator if data is not loaded
         : Column( // whole page
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 5), // spacer for aesthetics
-          Row( // username display
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("@${_profileData['username']}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
-            ]
-          ),
+          // Row( // username display - (NOT NEEDED?)
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Text("@${_profileData['username']}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
+          //   ]
+          // ),
           const SizedBox(height: 5), // spacer for aesthetics
           Row( // Profile picture plus user information
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-import 'feed.dart';
 import 'draw.dart';
-import 'profile.dart';
-import 'settings.dart';
-import 'main.dart';
 import 'menudrawer.dart';
 
 class DrawFirst extends StatefulWidget {
@@ -27,40 +22,42 @@ class _DrawFirstState extends State<DrawFirst> {
         ),
       ),
       drawer: const MenuDrawer(),
-      body: Stack(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Positioned(
-            top: 75,
-            left: 50,
+          const SizedBox(height: 20), // spacer for aesthetics
+          const Center( // Title
             child: Text(
-              "Drawp \ntoday’s \ndrawing!",
+              "Today’s Drawp",
               style: 
                 TextStyle(
-                  fontWeight: FontWeight.w800, fontSize: 48, height: 1.25),
+                  fontWeight: FontWeight.w800, fontSize: 42),
               softWrap: true,
               overflow: TextOverflow.visible,
             ),
           ),
-          const Positioned(
-            top: 275,
-            left: 50,
-            child: Text(
-              """You can’t see other people’s \ndrawings until you drawp. \nThis makes your drawp 100%\noriginal.""",
+          const SizedBox(height: 10), // spacer for aesthetics
+          const Padding(
+            padding: EdgeInsets.only(left: 20, right: 20),
+            child: Text( // description
+              """You can’t see other people’s posts until you Drawp, which makes your masterpiece 100% original.""",
+              textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.w700, height: 1),
+                fontSize: 20, fontWeight: FontWeight.w700, height: 1
+              ),
             ),
           ),
-          Positioned(
-            top: 375,
-            left: 100,
-            child: IconButton(
-              icon: Image.asset('assets/icons/tap_to_start_drawing.png'),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Draw()));
-              },
-            )),
+          const SizedBox(height: 10), // spacer for aesthetics
+          IconButton(
+            icon: Image.asset('assets/icons/tap_to_start_drawing.png'),
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Draw()));
+            },
+          ),
+          const SizedBox(height: 30), // spacer for aesthetics
         ],
       ),
     );
