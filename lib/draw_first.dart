@@ -22,11 +22,9 @@ class _DrawFirstState extends State<DrawFirst> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          "INFO",
-          style: TextStyle(color: Colors.white),
+          "Drawp!",
           textAlign: TextAlign.center,
         ),
-        backgroundColor: Colors.pink.shade500,
       ),
       drawer: const MenuDrawer(),
       body: Stack(

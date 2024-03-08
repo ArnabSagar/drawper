@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'feed.dart';
 import 'draw.dart';
@@ -34,13 +35,13 @@ class _HomePageState extends State<HomePage> {
       drawer: const MenuDrawer(),
       body: _children[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        iconSize: 32.0,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
+        iconSize: 30.0,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white54,
         currentIndex: _selectedIndex,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.purple.shade900,
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(

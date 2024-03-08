@@ -18,17 +18,18 @@ class MenuDrawer extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const SizedBox(
+            SizedBox(
               height: 89, // Set the desired height
               child: DrawerHeader(
                 decoration: BoxDecoration(
-                  color: Colors.pink,
+                  color: Colors.purple.shade900,
                 ),
-                child: Text(
+                child: const Text(
                   'Drawper Menu',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 24,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),

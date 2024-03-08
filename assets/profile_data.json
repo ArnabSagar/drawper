@@ -1,0 +1,68 @@
+{
+  "username": "austin.vb",
+  "name": "Austin Van Braeckel",
+  "profilePicUrl": "N/A",
+  "bio": "Real eyes realize real lies. This is how long a bio can be maximum. With these words 100 characters.",
+  "points": 2500000,
+  "drawps": 347,
+  "followers": 42069,
+  "email": "N/A",
+  "posts": [
+    {
+      "image": "N/A",
+      "date": "2024-02-13",
+      "prompt": "Puppy",
+      "likes": 100,
+      "dislikes": 25,
+      "views": 350
+    },
+    {
+      "image": "N/A",
+      "date": "2024-02-10",
+      "prompt": "Flow",
+      "likes": 200,
+      "dislikes": 15,
+      "views": 500
+    },
+    {
+      "image": "N/A",
+      "date": "2024-02-08",
+      "prompt": "Hero",
+      "likes": 123,
+      "dislikes": 45,
+      "views": 297
+    },
+    {
+      "image": "N/A",
+      "date": "2024-02-07",
+      "prompt": "Dazzle",
+      "likes": 519,
+      "dislikes": 21,
+      "views": 1207
+    },
+    {
+      "image": "N/A",
+      "date": "2024-02-06",
+      "prompt": "Fall",
+      "likes": 57,
+      "dislikes": 4,
+      "views": 378
+    },
+    {
+      "image": "N/A",
+      "date": "2024-02-04",
+      "prompt": "Dodge",
+      "likes": 27,
+      "dislikes": 0,
+      "views": 173
+    },
+    {
+      "image": "N/A",
+      "date": "2024-02-02",
+      "prompt": "Tide",
+      "likes": 15,
+      "dislikes": 0,
+      "views": 56
+    }
+  ]
+}

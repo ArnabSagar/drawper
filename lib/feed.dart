@@ -24,10 +24,8 @@ class _FeedState extends State<Feed> {
         centerTitle: true,
         title: const Text(
           "Feed",
-          style: TextStyle(color: Colors.white),
           textAlign: TextAlign.center,
         ),
-        backgroundColor: Colors.pink.shade500,
       ),
       drawer: const MenuDrawer(),
       body: Center(child: Text("FEED PAGE")),

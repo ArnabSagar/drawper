@@ -67,6 +67,7 @@ flutter:
     - assets/icons/ink_eraser_off.svg
     - assets/icons/logo.png
     - assets/icons/tap_to_start_drawing.png
+    - assets/profile_data.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
