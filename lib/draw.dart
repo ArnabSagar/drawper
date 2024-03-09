@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui';
 import 'dart:io';
-import 'feed.dart';
+import 'homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -32,16 +32,17 @@ class _DrawState extends State<Draw> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Draw Something"),
+        title: const Text("Draw something related to..."),
         automaticallyImplyLeading: false,
       ),
       body: Column(
         children: <Widget>[
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.0),
+            padding: EdgeInsets.symmetric(vertical: 5.0),
             child: Text(
-              'Today\'s Prompt is: Cats',
-              style: TextStyle(fontSize: 20.0),
+              'Cats', // TODO ADD DAILY PROMPT LOGIC TO GENERATE THIS
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
             ),
           ),
           Expanded(
@@ -149,20 +150,25 @@ class _DrawState extends State<Draw> {
               ],
             ),
           ),
+          TextButton(
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all(Colors.white),
+              backgroundColor: MaterialStateProperty.all(Colors.purple.shade900)
+            ),
+            onPressed: () async {
+              // Capture the screenshot
+              Uint8List? imageUint8List = await screenshotController.capture();
+              if (imageUint8List != null) {
+                // Save the screenshot as an image file
+                saveImage(imageUint8List);
+                Navigator.pop(context); // TODO IMPLEMENT SOME KIND OF LOADING SCREEN TO WAIT FOR THE IMAGE TO SAVE BEFORE NAVIGATING
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+              }
+            },
+            child: const Text('Drawp It!'),
+          ),
+          const SizedBox(height: 10),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // Capture the screenshot
-          Uint8List? imageUint8List = await screenshotController.capture();
-          if (imageUint8List != null) {
-            // Save the screenshot as an image file
-            saveImage(imageUint8List);
-            Navigator.pop(context);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const Feed()));
-          }
-        },
-        child: const Text('Done!'),
       ),
     );
   }

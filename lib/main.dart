@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-import 'homePage.dart';
 import 'feed.dart';
+import 'draw_first.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Drawper',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
+        appBarTheme: AppBarTheme(
+          iconTheme: const IconThemeData(color: Colors.white),
+          backgroundColor: Colors.purple.shade900,
+          titleTextStyle: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 20
+          ),
+        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple.shade900),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Drawper Login Page'),
@@ -44,6 +54,11 @@ void _create() {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    // Set the status bar color
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.purple.shade900, // Change this color to your desired status bar color
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Center(
@@ -71,17 +86,16 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(height: 50),
             TextButton(
-                style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.purple),
-                  foregroundColor: MaterialStatePropertyAll(Colors.white),
-                  overlayColor: MaterialStatePropertyAll(
-                      Color.fromARGB(255, 112, 29, 126)),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.purple.shade900),
+                  foregroundColor: const MaterialStatePropertyAll(Colors.white),
+                  overlayColor: const MaterialStatePropertyAll(Color.fromARGB(255, 56, 15, 106)),
                 ),
                 onPressed: () => {
                       Navigator.pop(context),
                       Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (context) => const Feed()),
+                          MaterialPageRoute(builder: (context) => const DrawFirst()), // TODO ADD LOGIC FOR CHECKING IF THEY HAVE DONE THE DRAWP OF THE DAY OR NOT YET
                           (route) => false)
                     },
                 child: const Text("Login",

@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'feed.dart';
-import 'draw.dart';
-import 'profile.dart';
-import 'settings.dart';
-import 'main.dart';
-import 'draw_first.dart';
-import 'homePage.dart';
 import 'menudrawer.dart';
 
 class Feed extends StatefulWidget {
@@ -24,10 +17,8 @@ class _FeedState extends State<Feed> {
         centerTitle: true,
         title: const Text(
           "Feed",
-          style: TextStyle(color: Colors.white),
           textAlign: TextAlign.center,
         ),
-        backgroundColor: Colors.pink.shade500,
       ),
       drawer: const MenuDrawer(),
       body: Center(child: Text("FEED PAGE")),

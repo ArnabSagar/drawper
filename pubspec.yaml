@@ -40,6 +40,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   screenshot: ^2.1.0
   path_provider: ^2.1.2
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -63,10 +64,16 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+    - android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+    - android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+    - android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+    - android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
     - assets/icons/ink_eraser.svg
     - assets/icons/ink_eraser_off.svg
     - assets/icons/logo.png
     - assets/icons/tap_to_start_drawing.png
+    - assets/profile_data.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
