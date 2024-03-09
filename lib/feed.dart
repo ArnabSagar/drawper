@@ -1,3 +1,4 @@
+import 'package:drawper/post_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
@@ -72,16 +73,19 @@ class _FeedState extends State<Feed> {
                         padding: const EdgeInsets.all(1.0),
                         child: InkWell(
                             onTap: () {
-                              /**
-                           * MAKE SURE TO ROUTE FROM THE POST TO THE Detailed view
-                           * */
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PostDetails(
+                                            post: post,
+                                          )));
                             },
                             child: Column(
                               children: [
                                 Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(5, 15, 5, 10),
-                                  child: Text(post['author']['id'],
+                                  child: Text(post['author']['username'],
                                       style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 14,
