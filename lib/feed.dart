@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:io';
 import 'dart:convert';
-import 'feed.dart';
-import 'draw.dart';
-import 'profile.dart';
-import 'settings.dart';
-import 'main.dart';
-import 'draw_first.dart';
+import 'menudrawer.dart';
 
 class Feed extends StatefulWidget {
   const Feed({Key? key}) : super(key: key);
@@ -42,83 +36,10 @@ class _FeedState extends State<Feed> {
           ),
           backgroundColor: Colors.pink.shade500,
         ),
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              ListTile(
-                leading: const Icon(
-                  Icons.list_alt_outlined,
-                ),
-                title: const Text('Feed'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.person,
-                ),
-                title: const Text('Your @Profile'),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Profile()));
-                },
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.settings,
-                ),
-                title: const Text('Settings'),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Settings()));
-                },
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.settings,
-                ),
-                title: const Text('Draw First Info Page'),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const DrawFirst()));
-                },
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.exit_to_app,
-                ),
-                title: const Text('Log Out'),
-                onTap: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const MyHomePage(title: "Drawper Login Page")),
-                      (route) => false);
-                },
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.help_center_outlined,
-                ),
-                title: const Text('Help'),
-                onTap: () {},
-              ),
-            ],
-          ),
-        ),
+        drawer: const MenuDrawer(),
         body: Column(children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
+            padding: const EdgeInsets.fromLTRB(5, 15, 5, 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -149,7 +70,6 @@ class _FeedState extends State<Feed> {
                     Map post = _posts[i];
                     return Padding(
                         padding: const EdgeInsets.all(1.0),
-                        // child: Text(post.toString()),
                         child: InkWell(
                             onTap: () {
                               /**
@@ -159,7 +79,8 @@ class _FeedState extends State<Feed> {
                             child: Column(
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.fromLTRB(5, 15, 5, 10),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(5, 15, 5, 10),
                                   child: Text(post['author']['id'],
                                       style: const TextStyle(
                                           color: Colors.black,
