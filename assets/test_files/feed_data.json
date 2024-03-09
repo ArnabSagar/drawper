@@ -1,0 +1,90 @@
+{
+    "feed": [
+        {
+            "id": "1",
+            "post_date": "2024-03-01T08:00:00Z",
+            "author": {
+                "id": "Arnab Sagar",
+                "username": "Alcatraz3d",
+                "avatar_url": "https://example.com/avatar/user123.jpg"
+            },
+            "image_url": "https://c8.alamy.com/comp/2FWE49J/cute-hand-drawn-cat-kitty-doodle-icon-children-drawing-isolated-vector-illustration-in-doodle-style-on-white-background-2FWE49J.jpg",
+            "likes": 256,
+            "dislikes": 12,
+            "comments": [
+                {
+                    "id": "comment1",
+                    "user": {
+                        "id": "user456",
+                        "username": "sketch_master"
+                    },
+                    "content": "Wow, this is amazing!",
+                    "timestamp": "2024-03-01T09:30:00Z"
+                },
+                {
+                    "id": "comment2",
+                    "user": {
+                        "id": "user789",
+                        "username": "art_lover"
+                    },
+                    "content": "Great work! Love the colors.",
+                    "timestamp": "2024-03-01T10:15:00Z"
+                }
+            ],
+            "views": 1024,
+            "prompt": {
+                "id": "prompt1",
+                "title": "Fantasy World",
+                "description": "Draw your own fantasy world with magical creatures and landscapes."
+            }
+        },
+        {
+            "id": "2",
+            "post_date": "2024-03-02T10:00:00Z",
+            "author": {
+                "id": "Michelle Berry",
+                "username": "mchel",
+                "avatar_url": "https://example.com/avatar/user456.jpg"
+            },
+            "image_url": "https://cdn5.vectorstock.com/i/1000x1000/52/24/doodle-cat-simple-vector-43015224.jpg",
+            "likes": 123,
+            "dislikes": 2,
+            "comments": [
+                {
+                    "id": "comment3",
+                    "user": {
+                        "id": "user123",
+                        "username": "artist_gal"
+                    },
+                    "content": "Incredible detail!",
+                    "timestamp": "2024-03-02T10:30:00Z"
+                }
+            ],
+            "views": 789,
+            "prompt": {
+                "id": "prompt2",
+                "title": "Underwater Adventure",
+                "description": "Dive into an underwater world and create an adventurous scene."
+            }
+        },
+        {
+            "id": "3",
+            "post_date": "2024-03-03T12:00:00Z",
+            "author": {
+                "id": "Austin Van Braeckal",
+                "username": "HoYeezus",
+                "avatar_url": "https://example.com/avatar/user789.jpg"
+            },
+            "image_url": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/80cf80aa-b768-4409-b289-f32d92d64b54/d5u4498-064b497e-a197-4c79-a421-2de796d30af4.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzgwY2Y4MGFhLWI3NjgtNDQwOS1iMjg5LWYzMmQ5MmQ2NGI1NFwvZDV1NDQ5OC0wNjRiNDk3ZS1hMTk3LTRjNzktYTQyMS0yZGU3OTZkMzBhZjQucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.PTYHnvYgUZaO7s1xJREEUq4mKTZPcBWi3oJMV8X0jUM",
+            "likes": 423,
+            "dislikes": 31,
+            "comments": [],
+            "views": 1456,
+            "prompt": {
+                "id": "prompt3",
+                "title": "Cityscape",
+                "description": "Capture the essence of a bustling cityscape with skyscrapers and busy streets."
+            }
+        }
+    ]
+}
