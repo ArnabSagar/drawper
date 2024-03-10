@@ -12,7 +12,13 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
-  List _posts = [];
+  List<dynamic> _posts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    readJson();
+  }
 
   Future<void> readJson() async {
     final String response =
@@ -25,7 +31,6 @@ class _FeedState extends State<Feed> {
 
   @override
   Widget build(BuildContext context) {
-    readJson();
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -35,7 +40,6 @@ class _FeedState extends State<Feed> {
             style: TextStyle(color: Colors.white),
             textAlign: TextAlign.center,
           ),
-          backgroundColor: Colors.pink.shade500,
         ),
         drawer: const MenuDrawer(),
         body: Column(children: [
@@ -68,7 +72,7 @@ class _FeedState extends State<Feed> {
                       crossAxisCount: 2),
                   itemCount: _posts.length,
                   itemBuilder: (BuildContext c, int i) {
-                    Map post = _posts[i];
+                    Map<String, dynamic> post = _posts[i];
                     return Padding(
                         padding: const EdgeInsets.all(1.0),
                         child: InkWell(
