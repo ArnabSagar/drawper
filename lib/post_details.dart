@@ -55,8 +55,61 @@ class _PostDetailsState extends State<PostDetails> {
           ),
           // Likes, Dislikes, Views
           Container(
-            child: Row(
-              children: [],
+            child: Wrap(
+              alignment: WrapAlignment.spaceAround,
+              children: [
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      const WidgetSpan(
+                          child: Icon(
+                        Icons.thumb_up_sharp,
+                        size: 20,
+                      )),
+                      TextSpan(
+                          text: '${widget.post['likes']}',
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20)),
+                    ],
+                  ),
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      const WidgetSpan(
+                          child: Icon(
+                        Icons.thumb_down_sharp,
+                        size: 20,
+                      )),
+                      TextSpan(
+                          text: '${widget.post['dislikes']}',
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20)),
+                    ],
+                  ),
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      const WidgetSpan(
+                          child: Icon(
+                        Icons.remove_red_eye_outlined,
+                        size: 20,
+                      )),
+                      TextSpan(
+                          text: '${widget.post['views']}',
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20)),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
           // Comments
