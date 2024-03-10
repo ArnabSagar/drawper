@@ -21,7 +21,6 @@ class _DrawFirstState extends State<DrawFirst> {
           textAlign: TextAlign.center,
         ),
       ),
-      drawer: const MenuDrawer(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,

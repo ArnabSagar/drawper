@@ -75,4 +75,6 @@ flutter:
     - assets/icons/tap_to_start_drawing.png
     - assets/test_files/feed_data.json
     - assets/test_files/profile_data.json
+    - assets/test_files/profile_data2.json
+    - assets/test_files/search_data.json
   

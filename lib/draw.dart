@@ -2,6 +2,7 @@ import 'dart:typed_data';
 // import 'dart:ui' as ui;
 import 'dart:io';
 import 'package:drawper/feed.dart';
+import 'homePage.dart';
 
 // import 'homePage.dart';
 import 'package:flutter/material.dart';
@@ -167,7 +168,7 @@ class DrawState extends State<Draw> {
                 // ignore: use_build_context_synchronously
                 Navigator.pop(context); // TODO IMPLEMENT SOME KIND OF LOADING SCREEN TO WAIT FOR THE IMAGE TO SAVE BEFORE NAVIGATING
                 // ignore: use_build_context_synchronously
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Feed(newDrawing: img)));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(newDrawing: img)));
               }
             },
             child: const Text('Drawp It!'),
