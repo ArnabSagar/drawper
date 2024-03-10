@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'menudrawer.dart';
+import 'menu_drawer.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
 
   @override
-  _SearchState createState() => _SearchState();
+  SearchState createState() => SearchState();
 }
 
-class _SearchState extends State<Search> {
-  TextEditingController _searchController = TextEditingController();
+class SearchState extends State<Search> {
+  final TextEditingController _searchController = TextEditingController();
   String _searchTerm = '';
 
   @override

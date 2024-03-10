@@ -56,7 +56,7 @@ class DrawState extends State<Draw> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       IconButton(
-                        icon: Icon(Icons.delete, color: Colors.black, size: 35,),
+                        icon: const Icon(Icons.delete, color: Colors.black, size: 35,),
                         onPressed: () {
                           _showConfirmationDialog();
                         },
@@ -70,7 +70,7 @@ class DrawState extends State<Draw> {
                               },
                             ),
                             IconButton(
-                              icon: Icon(Icons.brush, color: Colors.black, size: 35,),
+                              icon: const Icon(Icons.brush, color: Colors.black, size: 35,),
                               onPressed: () {
                                 _showStrokeWidthDialog();
                               },
@@ -86,11 +86,11 @@ class DrawState extends State<Draw> {
                               },
                             ),
                             IconButton(
-                              icon: Icon(Icons.undo, color: Colors.black, size: 35,),
+                              icon: const Icon(Icons.undo, color: Colors.black, size: 35,),
                               onPressed: _undoStroke,
                             ),
                             IconButton(
-                              icon: Icon(Icons.redo, color: Colors.black, size: 35,),
+                              icon: const Icon(Icons.redo, color: Colors.black, size: 35,),
                               onPressed: _redoStroke,
                             ),
                         ],
@@ -162,7 +162,7 @@ class DrawState extends State<Draw> {
               Uint8List? imageUint8List = await screenshotController.capture();
               if (imageUint8List != null) {
                 // Save the screenshot as an image file
-                // ui.Image image = await decodeImageFromList();
+                //saveImage(imageUint8List); 
                 Uint8List img = imageUint8List.buffer.asUint8List();
                 // ignore: use_build_context_synchronously
                 Navigator.pop(context); // TODO IMPLEMENT SOME KIND OF LOADING SCREEN TO WAIT FOR THE IMAGE TO SAVE BEFORE NAVIGATING
@@ -184,7 +184,7 @@ class DrawState extends State<Draw> {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Select Color'),
+        title: const Text('Select Color'),
         content: SingleChildScrollView(
           child: ColorPicker(
             pickerColor: currentColor,
@@ -200,7 +200,7 @@ class DrawState extends State<Draw> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       );
@@ -231,7 +231,7 @@ class DrawState extends State<Draw> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Are you sure you want to clear your drawing?'),
+          title: const Text('Are you sure you want to clear your drawing?'),
           content: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -251,7 +251,7 @@ class DrawState extends State<Draw> {
                   ),
                 ),
               ),
-              SizedBox(width: 20), // Add some spacing between buttons
+              const SizedBox(width: 20), // Add some spacing between buttons
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -299,11 +299,12 @@ class DrawState extends State<Draw> {
 
     // Save the Image to the device's storage
     final directory = await getTemporaryDirectory();
-    final imagePath = '${directory.path}/drawing.png';
+    final imagePath = '${directory.path}/drawing4.png';
     final File imageFile = File(imagePath);
     await imageFile.writeAsBytes(imageUint8List);
 
     // Display a message
+    // ignore: avoid_print
     print('Image saved to $imagePath');
   }
 }
@@ -355,10 +356,10 @@ class StrokeWidthShapePickerDialog extends StatefulWidget {
   const StrokeWidthShapePickerDialog({Key? key, required this.initialStrokeWidth, required this.initialStrokeShape}) : super(key: key);
 
   @override
-  _StrokeWidthShapePickerDialogState createState() => _StrokeWidthShapePickerDialogState();
+  StrokeWidthShapePickerDialogState createState() => StrokeWidthShapePickerDialogState();
 }
 
-class _StrokeWidthShapePickerDialogState extends State<StrokeWidthShapePickerDialog> {
+class StrokeWidthShapePickerDialogState extends State<StrokeWidthShapePickerDialog> {
 
   late double _strokeWidth;
   late StrokeCap _strokeShape;
@@ -424,8 +425,8 @@ class _StrokeWidthShapePickerDialogState extends State<StrokeWidthShapePickerDia
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Stroke Shape', style: const TextStyle(fontSize: 20)),
-                          Text('${_strokeShape == StrokeCap.round ? "Round" : "Square"}', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                          const Text('Stroke Shape', style: TextStyle(fontSize: 20)),
+                          Text(_strokeShape == StrokeCap.round ? "Round" : "Square", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                         ],
                       ),
                       Row(

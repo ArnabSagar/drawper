@@ -1,4 +1,4 @@
-import 'package:drawper/menudrawer.dart';
+import 'package:drawper/menu_drawer.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +8,7 @@ class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
 
   @override
-  _ProfileState createState() => _ProfileState();
+  ProfileState createState() => ProfileState();
 }
 
 // Generates the desired display of the given integer - eg. 4200 -> "4.2K"
@@ -41,7 +41,7 @@ String getDateDisplay(String date) {
   return formattedDate;
 }
 
-class _ProfileState extends State<Profile> {
+class ProfileState extends State<Profile> {
   dynamic _profileData = {};
 
   @override
@@ -254,7 +254,7 @@ class _ProfileState extends State<Profile> {
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color:
-                                            Color.fromARGB(162, 198, 198, 198),
+                                            const Color.fromARGB(162, 198, 198, 198),
                                         width: 1)),
                                 child: Scrollbar(
                                     thickness: 5,
