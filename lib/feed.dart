@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:drawper/post_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,7 +7,9 @@ import 'dart:convert';
 import 'menudrawer.dart';
 
 class Feed extends StatefulWidget {
-  const Feed({Key? key}) : super(key: key);
+  final Uint8List? newDrawing; 
+
+  const Feed({Key? key, this.newDrawing}) : super(key: key);
 
   @override
   _FeedState createState() => _FeedState();
@@ -35,7 +39,6 @@ class _FeedState extends State<Feed> {
             style: TextStyle(color: Colors.white),
             textAlign: TextAlign.center,
           ),
-          backgroundColor: Colors.pink.shade500,
         ),
         drawer: const MenuDrawer(),
         body: Column(children: [
@@ -66,9 +69,39 @@ class _FeedState extends State<Feed> {
                   scrollDirection: Axis.vertical,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2),
-                  itemCount: _posts.length,
+                  itemCount: widget.newDrawing != null? _posts.length + 1 : _posts.length,
                   itemBuilder: (BuildContext c, int i) {
-                    Map post = _posts[i];
+
+                    if (i == 0 && widget.newDrawing != null) {
+                        return Padding(
+                        padding: const EdgeInsets.all(1.0),
+                        child: InkWell(
+                            onTap: () {
+                              
+                            },
+                            child: Column(
+                              children: [
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.fromLTRB(5, 15, 5, 10),
+                                  child: Text("yourusername",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500)),
+                                ),
+                                Image.memory(
+                                  widget.newDrawing!,
+                                  fit: BoxFit.contain,
+                                  width: 140,
+                                  height: 140,
+                                ),
+                              ],
+                            )));
+                    }
+
+                    Map post = _posts[widget.newDrawing != null? i-1: i];
+
                     return Padding(
                         padding: const EdgeInsets.all(1.0),
                         child: InkWell(

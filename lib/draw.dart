@@ -1,9 +1,11 @@
 import 'dart:typed_data';
-import 'dart:ui';
+// import 'dart:ui' as ui;
 import 'dart:io';
-import 'homePage.dart';
+import 'package:drawper/feed.dart';
+
+// import 'homePage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+// import 'package:flutter/rendering.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:screenshot/screenshot.dart';
@@ -13,10 +15,10 @@ class Draw extends StatefulWidget {
   const Draw({Key? key}) : super(key: key);
 
   @override
-  _DrawState createState() => _DrawState();
+  DrawState createState() => DrawState();
 }
 
-class _DrawState extends State<Draw> {
+class DrawState extends State<Draw> {
 
   final ScreenshotController screenshotController = ScreenshotController();
 
@@ -49,7 +51,7 @@ class _DrawState extends State<Draw> {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -160,9 +162,12 @@ class _DrawState extends State<Draw> {
               Uint8List? imageUint8List = await screenshotController.capture();
               if (imageUint8List != null) {
                 // Save the screenshot as an image file
-                saveImage(imageUint8List);
+                // ui.Image image = await decodeImageFromList();
+                Uint8List img = imageUint8List.buffer.asUint8List();
+                // ignore: use_build_context_synchronously
                 Navigator.pop(context); // TODO IMPLEMENT SOME KIND OF LOADING SCREEN TO WAIT FOR THE IMAGE TO SAVE BEFORE NAVIGATING
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                // ignore: use_build_context_synchronously
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Feed(newDrawing: img)));
               }
             },
             child: const Text('Drawp It!'),
@@ -290,7 +295,7 @@ class _DrawState extends State<Draw> {
   // It's prob just easier to upload to AWS bucket or something and into our database eventually
   void saveImage(Uint8List imageUint8List) async {
     // Convert the Uint8List to an Image
-    //ui.Image image = await decodeImageFromList(imageUint8List.buffer.asUint8List());
+    // ui.Image image = await decodeImageFromList(imageUint8List.buffer.asUint8List());
 
     // Save the Image to the device's storage
     final directory = await getTemporaryDirectory();
