@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'feed.dart';
 import 'draw_first.dart';
 
 void main() {
@@ -21,10 +19,7 @@ class MyApp extends StatelessWidget {
           iconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: Colors.purple.shade900,
           titleTextStyle: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w500,
-            fontSize: 20
-          ),
+              color: Colors.white, fontWeight: FontWeight.w500, fontSize: 20),
         ),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple.shade900),
         useMaterial3: true,
@@ -56,7 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     // Set the status bar color
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.purple.shade900, // Change this color to your desired status bar color
+      statusBarColor: Colors.purple
+          .shade900, // Change this color to your desired status bar color
       statusBarIconBrightness: Brightness.light,
     ));
     return Scaffold(
@@ -87,15 +83,19 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(height: 50),
             TextButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.purple.shade900),
+                  backgroundColor:
+                      MaterialStatePropertyAll(Colors.purple.shade900),
                   foregroundColor: const MaterialStatePropertyAll(Colors.white),
-                  overlayColor: const MaterialStatePropertyAll(Color.fromARGB(255, 56, 15, 106)),
+                  overlayColor: const MaterialStatePropertyAll(
+                      Color.fromARGB(255, 56, 15, 106)),
                 ),
                 onPressed: () => {
                       Navigator.pop(context),
                       Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (context) => const DrawFirst()), // TODO ADD LOGIC FOR CHECKING IF THEY HAVE DONE THE DRAWP OF THE DAY OR NOT YET
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const DrawFirst()), // TODO ADD LOGIC FOR CHECKING IF THEY HAVE DONE THE DRAWP OF THE DAY OR NOT YET
                           (route) => false)
                     },
                 child: const Text("Login",
