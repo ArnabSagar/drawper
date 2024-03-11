@@ -5,7 +5,7 @@ import 'feed.dart';
 import 'profile.dart';
 import 'settings.dart';
 import 'main.dart';
-import 'homePage.dart';
+import 'home_page.dart';
 
 class MenuDrawer extends StatelessWidget {
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
-import 'menudrawer.dart';
+import 'menu_drawer.dart';
 import 'profile.dart';
 import 'detailedUser.dart';
 
@@ -10,10 +10,10 @@ class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
 
   @override
-  _SearchState createState() => _SearchState();
+  SearchState createState() => SearchState();
 }
 
-class _SearchState extends State<Search> {
+class SearchState extends State<Search> {
   List<dynamic> _searchData = []; 
 
   @override

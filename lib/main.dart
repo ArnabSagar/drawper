@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'draw_first.dart';
+import 'dart:io';
 
 void main() {
+  HttpOverrides.global = new MyHttpOverrides(); // TODO : Note this is a hacky thing because images from url were having certificate error
   runApp(const MyApp());
+}
+
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -38,6 +48,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+// ignore: unused_element
 void _login() {
   // TODO: LOGIN FUNCTIONALITY
 }

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'feed.dart';
 import 'search.dart';
 import 'profile.dart';
-import 'menudrawer.dart';
+import 'menu_drawer.dart';
 
 class HomePage extends StatefulWidget {
   final Uint8List? newDrawing; 
@@ -12,10 +12,10 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key, this.newDrawing}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   //For changing the screen

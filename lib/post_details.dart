@@ -13,10 +13,10 @@ class PostDetails extends StatefulWidget {
   final Map post;
 
   @override
-  _PostDetailsState createState() => _PostDetailsState();
+  PostDetailsState createState() => PostDetailsState();
 }
 
-class _PostDetailsState extends State<PostDetails> {
+class PostDetailsState extends State<PostDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +24,7 @@ class _PostDetailsState extends State<PostDetails> {
         centerTitle: true,
         title: Text(
           '@${widget.post["author"]["username"]}\'s drawp',
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
           textAlign: TextAlign.center,
         ),
         backgroundColor: Colors.pink.shade500,
@@ -55,7 +55,7 @@ class _PostDetailsState extends State<PostDetails> {
           ),
           // Likes, Dislikes, Views
           Container(
-            child: Row(
+            child: const Row(
               children: [],
             ),
           ),
