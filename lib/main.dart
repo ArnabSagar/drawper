@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'draw_first.dart';
 import 'dart:io';
-import 'dart:';
 
 void main() {
   HttpOverrides.global =

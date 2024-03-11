@@ -28,11 +28,11 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     //This is a screens list which you want to navigate through BottomNavigationBar
-    final List<Widget> _children = [Feed(newDrawing: widget.newDrawing), const Search(), const Profile()];
+    final List<Widget> children = [Feed(newDrawing: widget.newDrawing), const Search(), const Profile()];
     return Scaffold(
       resizeToAvoidBottomInset: false,
       drawer: const MenuDrawer(),
-      body: _children[_selectedIndex],
+      body: children[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 25,
         showSelectedLabels: false,
