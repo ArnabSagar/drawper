@@ -77,4 +77,5 @@ flutter:
     - assets/test_files/profile_data.json
     - assets/test_files/profile_data2.json
     - assets/test_files/search_data.json
+    - assets/images/DrawperFullLogo.png
   

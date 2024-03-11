@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'draw_first.dart';
 import 'dart:io';
 
@@ -75,12 +76,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            const SizedBox(height: 100),
-            Text(
-              "Drawper",
-              style: Theme.of(context).textTheme.headlineMedium,
+            const SizedBox(height: 50),
+            const Image(
+              image: AssetImage('assets/images/DrawperFullLogo.png'),
+              width: 325
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 5),
             const SizedBox(
               width: 300,
               child: TextField(
@@ -94,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: InputDecoration(labelText: "Password"),
               ),
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 30),
             TextButton(
                 style: ButtonStyle(
                   backgroundColor:
@@ -114,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                 child: const Text("Login",
                     style: TextStyle(fontWeight: FontWeight.bold))),
-            const SizedBox(height: 70),
+            const SizedBox(height: 60),
             const TextButton(
               onPressed: _create,
               child: Text("Create an account"),
