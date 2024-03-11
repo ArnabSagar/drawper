@@ -38,11 +38,9 @@ class FeedState extends State<Feed> {
           centerTitle: true,
           title: const Text(
             "Feed",
-            style: TextStyle(color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        drawer: const MenuDrawer(),
         body: Column(children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(5, 15, 5, 15),
@@ -75,37 +73,35 @@ class FeedState extends State<Feed> {
                   itemBuilder: (BuildContext c, int i) {
 
                     if (i == 0 && widget.newDrawing != null) {
-                        return Padding(
+                        return Container(
                         padding: const EdgeInsets.all(1.0),
+                        height: 160,
                         child: InkWell(
                             onTap: () {
                               
                             },
                             child: Column(
                               children: [
-                                const Padding(
-                                  padding:
-                                      EdgeInsets.fromLTRB(5, 15, 5, 10),
-                                  child: Text("yourusername",
+                                const Text("yourusername",
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500)),
-                                ),
+                                const SizedBox(height: 1),
                                 Image.memory(
                                   widget.newDrawing!,
                                   fit: BoxFit.contain,
-                                  width: 140,
-                                  height: 140,
+                                  width: 120,
+                                  height: 120,
                                 ),
                               ],
                             )));
                     }
 
                     Map post = _posts[widget.newDrawing != null? i-1: i];
-
-                    return Padding(
+                    return Container(
                         padding: const EdgeInsets.all(1.0),
+                        height: 160,
                         child: InkWell(
                             onTap: () {
                               Navigator.push(
@@ -117,20 +113,20 @@ class FeedState extends State<Feed> {
                             },
                             child: Column(
                               children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(5, 15, 5, 10),
-                                  child: Text(post['author']['username'],
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500)),
+                                Text(
+                                  post['author']['username'], 
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500
+                                  )
                                 ),
+                                const SizedBox(height: 1),
                                 Image(
                                   image: NetworkImage(post['image_url']),
                                   fit: BoxFit.contain,
-                                  width: 140,
-                                  height: 140,
+                                  width: 120,
+                                  height: 120,
                                 ),
                               ],
                             )));
