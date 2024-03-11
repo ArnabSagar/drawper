@@ -2,16 +2,17 @@ import 'package:drawper/post_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
-import 'menudrawer.dart';
 
 class Feed extends StatefulWidget {
-  const Feed({Key? key}) : super(key: key);
+  final Uint8List? newDrawing;
+
+  const Feed({Key? key, this.newDrawing}) : super(key: key);
 
   @override
-  _FeedState createState() => _FeedState();
+  FeedState createState() => FeedState();
 }
 
-class _FeedState extends State<Feed> {
+class FeedState extends State<Feed> {
   List<dynamic> _posts = [];
 
   @override
@@ -37,11 +38,9 @@ class _FeedState extends State<Feed> {
           centerTitle: true,
           title: const Text(
             "Feed",
-            style: TextStyle(color: Colors.white),
             textAlign: TextAlign.center,
           ),
         ),
-        drawer: const MenuDrawer(),
         body: Column(children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(5, 15, 5, 15),
@@ -70,11 +69,39 @@ class _FeedState extends State<Feed> {
                   scrollDirection: Axis.vertical,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2),
-                  itemCount: _posts.length,
+                  itemCount: widget.newDrawing != null
+                      ? _posts.length + 1
+                      : _posts.length,
                   itemBuilder: (BuildContext c, int i) {
-                    Map<String, dynamic> post = _posts[i];
-                    return Padding(
+                    if (i == 0 && widget.newDrawing != null) {
+                      return Container(
+                          padding: const EdgeInsets.all(1.0),
+                          height: 160,
+                          child: InkWell(
+                              onTap: () {},
+                              child: Column(
+                                children: [
+                                  const Text("yourusername",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500)),
+                                  const SizedBox(height: 1),
+                                  Image.memory(
+                                    widget.newDrawing!,
+                                    fit: BoxFit.contain,
+                                    width: 120,
+                                    height: 120,
+                                  ),
+                                ],
+                              )));
+                    }
+
+                    Map<String, dynamic> post =
+                        _posts[widget.newDrawing != null ? i - 1 : i];
+                    return Container(
                         padding: const EdgeInsets.all(1.0),
+                        height: 160,
                         child: InkWell(
                             onTap: () {
                               Navigator.push(
@@ -86,20 +113,17 @@ class _FeedState extends State<Feed> {
                             },
                             child: Column(
                               children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(5, 15, 5, 10),
-                                  child: Text(post['author']['username'],
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500)),
-                                ),
+                                Text(post['author']['username'],
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500)),
+                                const SizedBox(height: 1),
                                 Image(
                                   image: NetworkImage(post['image_url']),
                                   fit: BoxFit.contain,
-                                  width: 140,
-                                  height: 140,
+                                  width: 120,
+                                  height: 120,
                                 ),
                               ],
                             )));

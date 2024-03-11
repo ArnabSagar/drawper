@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'draw.dart';
-import 'menudrawer.dart';
 
 class DrawFirst extends StatefulWidget {
   const DrawFirst({Key? key}) : super(key: key);
 
   @override
-  _DrawFirstState createState() => _DrawFirstState();
+  DrawFirstState createState() => DrawFirstState();
 }
 
-class _DrawFirstState extends State<DrawFirst> {
+class DrawFirstState extends State<DrawFirst> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +20,6 @@ class _DrawFirstState extends State<DrawFirst> {
           textAlign: TextAlign.center,
         ),
       ),
-      drawer: const MenuDrawer(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'feed.dart';
 import 'search.dart';
 import 'profile.dart';
-import 'menudrawer.dart';
+import 'menu_drawer.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final Uint8List? newDrawing; 
+
+  const HomePage({Key? key, this.newDrawing}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   //For changing the screen
@@ -22,11 +25,10 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  //This is a screens list which you want to navigate through BottomNavigationBar
-  final List<Widget> _children = [const Feed(), const Search(), const Profile()];
-
   @override
   Widget build(BuildContext context) {
+    //This is a screens list which you want to navigate through BottomNavigationBar
+    final List<Widget> _children = [Feed(newDrawing: widget.newDrawing), const Search(), const Profile()];
     return Scaffold(
       resizeToAvoidBottomInset: false,
       drawer: const MenuDrawer(),

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'draw_first.dart';
 import 'dart:io';
+import 'dart:';
 
 void main() {
+  HttpOverrides.global =
+      MyHttpOverrides(); // TODO : Note this is a hacky thing because images from url were having certificate error
   runApp(const MyApp());
   HttpOverrides.global = MyHttpOverrides();
 }
@@ -49,6 +52,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+// ignore: unused_element
 void _login() {
   // TODO: LOGIN FUNCTIONALITY
 }

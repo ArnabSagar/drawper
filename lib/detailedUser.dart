@@ -1,48 +1,20 @@
-import 'package:drawper/menu_drawer.dart';
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+import 'profile.dart';
+
+class DetailedUser extends StatefulWidget {
+  const DetailedUser({Key? key}) : super(key: key);
 
   @override
-  ProfileState createState() => ProfileState();
+  _DetailedUserState createState() => _DetailedUserState();
 }
 
-// Generates the desired display of the given integer - eg. 4200 -> "4.2K"
-String getNumberDisplay(int number) {
-  double numAsDouble = number.toDouble();
-  String identifier = "";
-
-  if (number >= 1000000) {
-    numAsDouble = (numAsDouble / 100000).round().toDouble() / 10;
-    identifier = "M";
-  } else if (number >= 1000) {
-    numAsDouble = (numAsDouble / 100).round().toDouble() / 10;
-    identifier = "K";
-  } else {
-    // below 1000
-    return number.toString();
-  }
-
-  if (numAsDouble % 1 == 0) {
-    // whole number
-    return numAsDouble.toInt().toString() + identifier;
-  } // otherwise show one decimal
-  return numAsDouble.toStringAsFixed(1) + identifier;
-}
-
-// Generates the desired display of the given date, which must be in YYYY-MM-DD format
-String getDateDisplay(String date) {
-  DateTime dateTime = DateTime.parse(date);
-  String formattedDate = DateFormat('MMMM d, yyyy').format(dateTime);
-  return formattedDate;
-}
-
-class ProfileState extends State<Profile> {
-  dynamic _profileData = {};
+class _DetailedUserState extends State<DetailedUser> {
+  dynamic _userData = {};
 
   @override
   void initState() {
@@ -53,7 +25,7 @@ class ProfileState extends State<Profile> {
   // Loads all of the JSON data for the profile page
   Future<void> _loadJsonData() async {
     String jsonString =
-        await rootBundle.loadString('assets/test_files/profile_data.json');
+        await rootBundle.loadString('assets/test_files/profile_data2.json');
     Map<String, dynamic> jsonData = json.decode(jsonString);
 
     String pointsStr = getNumberDisplay(jsonData['points']);
@@ -61,7 +33,7 @@ class ProfileState extends State<Profile> {
     String drawpsStr = getNumberDisplay(jsonData['drawps']);
 
     setState(() {
-      _profileData = {
+      _userData = {
         ...jsonData,
         'pointsDisplay': pointsStr,
         'followersDisplay': followersStr,
@@ -76,15 +48,14 @@ class ProfileState extends State<Profile> {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            _profileData.isEmpty ? "" : "@${_profileData['username']}",
+            _userData.isEmpty ? "" : "@${_userData['username']}",
             style: const TextStyle(color: Colors.white),
             textAlign: TextAlign.center,
           ),
           backgroundColor: Colors.purple.shade900,
         ),
-        drawer: const MenuDrawer(),
         resizeToAvoidBottomInset: false,
-        body: _profileData.isEmpty // TODO ADD FUTURE BUILDER HERE INSTEAD?
+        body: _userData.isEmpty // TODO ADD FUTURE BUILDER HERE INSTEAD?
             ? const Center(
                 child:
                     CircularProgressIndicator()) // Show loading indicator if data is not loaded
@@ -97,7 +68,7 @@ class ProfileState extends State<Profile> {
                     // Row( // username display - (NOT NEEDED?)
                     //   mainAxisAlignment: MainAxisAlignment.center,
                     //   children: [
-                    //     Text("@${_profileData['username']}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
+                    //     Text("@${_userData['username']}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
                     //   ]
                     // ),
                     const SizedBox(height: 5), // spacer for aesthetics
@@ -120,7 +91,7 @@ class ProfileState extends State<Profile> {
                                           strokeAlign:
                                               BorderSide.strokeAlignOutside),
                                       image: DecorationImage(
-                                          image: NetworkImage(_profileData[
+                                          image: NetworkImage(_userData[
                                               'profilePicUrl']))))),
                           SizedBox(
                               // user info section beside profile picture
@@ -132,7 +103,7 @@ class ProfileState extends State<Profile> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    _profileData['bio'],
+                                    _userData['bio'],
                                     style: const TextStyle(fontSize: 12),
                                     textAlign: TextAlign.center,
                                   ),
@@ -150,7 +121,7 @@ class ProfileState extends State<Profile> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                                "${_profileData['pointsDisplay']}",
+                                                "${_userData['pointsDisplay']}",
                                                 style: const TextStyle(
                                                     fontSize: 14)),
                                             const Text("Points",
@@ -167,7 +138,7 @@ class ProfileState extends State<Profile> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                                "${_profileData['drawpsDisplay']}",
+                                                "${_userData['drawpsDisplay']}",
                                                 style: const TextStyle(
                                                     fontSize: 14)),
                                             const Text("Drawps",
@@ -184,7 +155,7 @@ class ProfileState extends State<Profile> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                                "${_profileData['followersDisplay']}",
+                                                "${_userData['followersDisplay']}",
                                                 style: const TextStyle(
                                                     fontSize: 14)),
                                             const Text("Followers",
@@ -205,7 +176,7 @@ class ProfileState extends State<Profile> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const SizedBox(width: 5),
-                          Text(_profileData['name'],
+                          Text(_userData['name'],
                               style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold)),
                           const SizedBox(width: 150),
@@ -224,7 +195,7 @@ class ProfileState extends State<Profile> {
                                     Color.fromARGB(255, 66, 66, 66)),
                               ),
                               onPressed: () => {},
-                              child: const Text("Edit Profile")),
+                              child: const Text("Follow")),
                           const SizedBox(width: 10), // spacer for aesthetics
                           TextButton(
                               style: const ButtonStyle(
@@ -234,17 +205,18 @@ class ProfileState extends State<Profile> {
                                     Color.fromARGB(255, 66, 66, 66)),
                               ),
                               onPressed: () => {},
-                              child: const Text("Share Profile")),
+                              child: const Text("Email")),
                           const SizedBox(width: 10), // spacer for aesthetics
                           IconButton(
-                              style: const ButtonStyle(
-                                backgroundColor: MaterialStatePropertyAll(
-                                    Color.fromARGB(255, 233, 233, 233)),
-                                foregroundColor: MaterialStatePropertyAll(
-                                    Color.fromARGB(255, 66, 66, 66)),
-                              ),
-                              onPressed: () => {},
-                              icon: const Icon(Icons.settings, size: 20, color: Colors.black45)),
+                            style: const ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(
+                                  Color.fromARGB(255, 233, 233, 233)),
+                              foregroundColor: MaterialStatePropertyAll(
+                                  Color.fromARGB(255, 66, 66, 66)),
+                            ),
+                            onPressed: () => {},
+                            icon: const Icon(Icons.report_outlined, size: 20, color: Colors.black45)
+                          )
                         ]),
                     const SizedBox(height: 10), // spacer for aesthetics
                     Expanded(
@@ -254,15 +226,15 @@ class ProfileState extends State<Profile> {
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color:
-                                            const Color.fromARGB(162, 198, 198, 198),
+                                            Color.fromARGB(162, 198, 198, 198),
                                         width: 1)),
                                 child: Scrollbar(
                                     thickness: 5,
                                     child: ListView.builder(
-                                        itemCount: _profileData['posts'].length,
+                                        itemCount: _userData['posts'].length,
                                         itemBuilder: (context, index) {
                                           var post =
-                                              _profileData['posts'][index];
+                                              _userData['posts'][index];
                                           var viewsDisplay =
                                               getNumberDisplay(post['views']);
                                           var likesDisplay =

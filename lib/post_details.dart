@@ -13,10 +13,10 @@ class PostDetails extends StatefulWidget {
   final Map post;
 
   @override
-  _PostDetailsState createState() => _PostDetailsState();
+  PostDetailsState createState() => PostDetailsState();
 }
 
-class _PostDetailsState extends State<PostDetails> {
+class PostDetailsState extends State<PostDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

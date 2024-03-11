@@ -1,9 +1,11 @@
 import 'dart:typed_data';
-import 'dart:ui';
+// import 'dart:ui' as ui;
 import 'dart:io';
-import 'homePage.dart';
+import 'home_page.dart';
+
+// import 'homePage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+// import 'package:flutter/rendering.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:screenshot/screenshot.dart';
@@ -13,10 +15,10 @@ class Draw extends StatefulWidget {
   const Draw({Key? key}) : super(key: key);
 
   @override
-  _DrawState createState() => _DrawState();
+  DrawState createState() => DrawState();
 }
 
-class _DrawState extends State<Draw> {
+class DrawState extends State<Draw> {
 
   final ScreenshotController screenshotController = ScreenshotController();
 
@@ -49,12 +51,12 @@ class _DrawState extends State<Draw> {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       IconButton(
-                        icon: Icon(Icons.delete, color: Colors.black, size: 35,),
+                        icon: const Icon(Icons.delete, color: Colors.black, size: 35,),
                         onPressed: () {
                           _showConfirmationDialog();
                         },
@@ -68,7 +70,7 @@ class _DrawState extends State<Draw> {
                               },
                             ),
                             IconButton(
-                              icon: Icon(Icons.brush, color: Colors.black, size: 35,),
+                              icon: const Icon(Icons.brush, color: Colors.black, size: 35,),
                               onPressed: () {
                                 _showStrokeWidthDialog();
                               },
@@ -84,11 +86,11 @@ class _DrawState extends State<Draw> {
                               },
                             ),
                             IconButton(
-                              icon: Icon(Icons.undo, color: Colors.black, size: 35,),
+                              icon: const Icon(Icons.undo, color: Colors.black, size: 35,),
                               onPressed: _undoStroke,
                             ),
                             IconButton(
-                              icon: Icon(Icons.redo, color: Colors.black, size: 35,),
+                              icon: const Icon(Icons.redo, color: Colors.black, size: 35,),
                               onPressed: _redoStroke,
                             ),
                         ],
@@ -160,9 +162,12 @@ class _DrawState extends State<Draw> {
               Uint8List? imageUint8List = await screenshotController.capture();
               if (imageUint8List != null) {
                 // Save the screenshot as an image file
-                saveImage(imageUint8List);
+                //saveImage(imageUint8List); 
+                Uint8List img = imageUint8List.buffer.asUint8List();
+                // ignore: use_build_context_synchronously
                 Navigator.pop(context); // TODO IMPLEMENT SOME KIND OF LOADING SCREEN TO WAIT FOR THE IMAGE TO SAVE BEFORE NAVIGATING
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                // ignore: use_build_context_synchronously
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(newDrawing: img)));
               }
             },
             child: const Text('Drawp It!'),
@@ -179,7 +184,7 @@ class _DrawState extends State<Draw> {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Select Color'),
+        title: const Text('Select Color'),
         content: SingleChildScrollView(
           child: ColorPicker(
             pickerColor: currentColor,
@@ -195,7 +200,7 @@ class _DrawState extends State<Draw> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       );
@@ -226,7 +231,7 @@ class _DrawState extends State<Draw> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Are you sure you want to clear your drawing?'),
+          title: const Text('Are you sure you want to clear your drawing?'),
           content: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -246,7 +251,7 @@ class _DrawState extends State<Draw> {
                   ),
                 ),
               ),
-              SizedBox(width: 20), // Add some spacing between buttons
+              const SizedBox(width: 20), // Add some spacing between buttons
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -290,15 +295,16 @@ class _DrawState extends State<Draw> {
   // It's prob just easier to upload to AWS bucket or something and into our database eventually
   void saveImage(Uint8List imageUint8List) async {
     // Convert the Uint8List to an Image
-    //ui.Image image = await decodeImageFromList(imageUint8List.buffer.asUint8List());
+    // ui.Image image = await decodeImageFromList(imageUint8List.buffer.asUint8List());
 
     // Save the Image to the device's storage
     final directory = await getTemporaryDirectory();
-    final imagePath = '${directory.path}/drawing.png';
+    final imagePath = '${directory.path}/drawing4.png';
     final File imageFile = File(imagePath);
     await imageFile.writeAsBytes(imageUint8List);
 
     // Display a message
+    // ignore: avoid_print
     print('Image saved to $imagePath');
   }
 }
@@ -350,10 +356,10 @@ class StrokeWidthShapePickerDialog extends StatefulWidget {
   const StrokeWidthShapePickerDialog({Key? key, required this.initialStrokeWidth, required this.initialStrokeShape}) : super(key: key);
 
   @override
-  _StrokeWidthShapePickerDialogState createState() => _StrokeWidthShapePickerDialogState();
+  StrokeWidthShapePickerDialogState createState() => StrokeWidthShapePickerDialogState();
 }
 
-class _StrokeWidthShapePickerDialogState extends State<StrokeWidthShapePickerDialog> {
+class StrokeWidthShapePickerDialogState extends State<StrokeWidthShapePickerDialog> {
 
   late double _strokeWidth;
   late StrokeCap _strokeShape;
@@ -419,8 +425,8 @@ class _StrokeWidthShapePickerDialogState extends State<StrokeWidthShapePickerDia
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Stroke Shape', style: const TextStyle(fontSize: 20)),
-                          Text('${_strokeShape == StrokeCap.round ? "Round" : "Square"}', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                          const Text('Stroke Shape', style: TextStyle(fontSize: 20)),
+                          Text(_strokeShape == StrokeCap.round ? "Round" : "Square", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                         ],
                       ),
                       Row(
