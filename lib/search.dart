@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
-import 'menu_drawer.dart';
-import 'profile.dart';
+// import 'menu_drawer.dart';
+// import 'profile.dart';
 import 'detailedUser.dart';
 
 class Search extends StatefulWidget {

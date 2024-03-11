@@ -1,8 +1,7 @@
 import 'dart:typed_data';
 // import 'dart:ui' as ui;
 import 'dart:io';
-import 'package:drawper/feed.dart';
-import 'homePage.dart';
+import 'home_page.dart';
 
 // import 'homePage.dart';
 import 'package:flutter/material.dart';
