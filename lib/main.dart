@@ -2,17 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'draw_first.dart';
 import 'dart:io';
+import 'dart:';
 
 void main() {
-  HttpOverrides.global = new MyHttpOverrides(); // TODO : Note this is a hacky thing because images from url were having certificate error
+  HttpOverrides.global =
+      MyHttpOverrides(); // TODO : Note this is a hacky thing because images from url were having certificate error
   runApp(const MyApp());
+  HttpOverrides.global = MyHttpOverrides();
 }
 
-class MyHttpOverrides extends HttpOverrides{
+class MyHttpOverrides extends HttpOverrides {
   @override
-  HttpClient createHttpClient(SecurityContext? context){
+  HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
 
