@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class FormContainerWidget extends StatefulWidget {
+class FormContainer extends StatefulWidget {
   final TextEditingController? controller;
   final Key? fieldKey;
   final bool? isPasswordField;
@@ -12,7 +12,7 @@ class FormContainerWidget extends StatefulWidget {
   final ValueChanged<String>? onFieldSubmitted;
   final TextInputType? inputType;
 
-  const FormContainerWidget(
+  const FormContainer(
       {super.key,
       this.controller,
       this.isPasswordField,
@@ -26,10 +26,10 @@ class FormContainerWidget extends StatefulWidget {
       this.inputType});
 
   @override
-  _FormContainerWidgetState createState() => new _FormContainerWidgetState();
+  _FormContainerState createState() => new _FormContainerState();
 }
 
-class _FormContainerWidgetState extends State<FormContainerWidget> {
+class _FormContainerState extends State<FormContainer> {
   bool _obscureText = true;
 
   @override

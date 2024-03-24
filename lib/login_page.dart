@@ -1,6 +1,8 @@
+import 'package:drawper/create_account_page.dart';
+import 'package:drawper/draw_first.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:drawper/form.dart';
+import 'package:drawper/utils/form.dart';
 import 'package:drawper/utils/toastMessage.dart';
 import 'package:drawper/user_auth/auth.dart';
 
@@ -35,10 +37,13 @@ class _LoginPageState extends State<LoginPage> {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Image(
+                  image: AssetImage('assets/images/DrawperFullLogo.png'),
+                  width: 325),
               const Text(
                 "Login",
                 style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
@@ -46,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 30,
               ),
-              FormContainerWidget(
+              FormContainer(
                 controller: _emailController,
                 hintText: "Email",
                 isPasswordField: false,
@@ -54,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 10,
               ),
-              FormContainerWidget(
+              FormContainer(
                 controller: _passwordController,
                 hintText: "Password",
                 isPasswordField: true,
@@ -64,13 +69,13 @@ class _LoginPageState extends State<LoginPage> {
               ),
               GestureDetector(
                 onTap: () {
-                  _signIn();
+                  _signIn(context);
                 },
                 child: Container(
                   width: double.infinity,
                   height: 45,
                   decoration: BoxDecoration(
-                    color: Colors.blue,
+                    color: Colors.purple.shade900,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Center(
@@ -131,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Don't have an account?"),
+                  const Text("Create account"),
                   const SizedBox(
                     width: 5,
                   ),
@@ -139,14 +144,15 @@ class _LoginPageState extends State<LoginPage> {
                     onTap: () {
                       Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                        MaterialPageRoute(
+                            builder: (context) => const CreateAccountPage()),
                         (route) => false,
                       );
                     },
-                    child: const Text(
+                    child: Text(
                       "Sign Up",
                       style: TextStyle(
-                        color: Colors.blue,
+                        color: Colors.purple.shade900,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -160,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _signIn() async {
+  void _signIn(BuildContext context) async {
     setState(() {
       _isSigning = true;
     });
@@ -175,10 +181,18 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     if (user != null) {
-      (message: "User is successfully signed in");
-      Navigator.pushNamed(context, "/home");
+      showMessage.toast(message: "Successfully logged in");
+      if (context.mounted) {
+        Navigator.pop(context);
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    const DrawFirst()), // TODO ADD LOGIC FOR CHECKING IF THEY HAVE DONE THE DRAWP OF THE DAY OR NOT YET
+            (route) => false);
+      }
     } else {
-      showMessage.toast(message: "some error occured");
+      showMessage.toast(message: "Login failed!");
     }
   }
 
