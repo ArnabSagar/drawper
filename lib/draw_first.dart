@@ -25,12 +25,11 @@ class DrawFirstState extends State<DrawFirst> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 20), // spacer for aesthetics
-          const Center( // Title
+          const Center(
+            // Title
             child: Text(
               "Today’s Drawp",
-              style: 
-                TextStyle(
-                  fontWeight: FontWeight.w800, fontSize: 42),
+              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 42),
               softWrap: true,
               overflow: TextOverflow.visible,
             ),
@@ -38,12 +37,12 @@ class DrawFirstState extends State<DrawFirst> {
           const SizedBox(height: 10), // spacer for aesthetics
           const Padding(
             padding: EdgeInsets.only(left: 20, right: 20),
-            child: Text( // description
+            child: Text(
+              // description
               """You can’t see other people’s posts until you Drawp, which makes your masterpiece 100% original.""",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w700, height: 1
-              ),
+                  fontSize: 20, fontWeight: FontWeight.w700, height: 1),
             ),
           ),
           const SizedBox(height: 10), // spacer for aesthetics
@@ -52,7 +51,7 @@ class DrawFirstState extends State<DrawFirst> {
             onPressed: () {
               Navigator.pop(context);
               Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Draw()));
+                  MaterialPageRoute(builder: (context) => const Draw()));
             },
           ),
           const SizedBox(height: 30), // spacer for aesthetics

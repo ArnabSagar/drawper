@@ -1,10 +1,17 @@
+import 'package:drawper/firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:drawper/user_auth/auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'draw_first.dart';
 import 'dart:io';
-import 'dart:';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   HttpOverrides.global =
       MyHttpOverrides(); // TODO : Note this is a hacky thing because images from url were having certificate error
   runApp(const MyApp());
@@ -52,16 +59,47 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-// ignore: unused_element
-void _login() {
-  // TODO: LOGIN FUNCTIONALITY
-}
-
-void _create() {
-  // TODO: CREATE ACCOUNT FUNCTIONALITY
-}
-
 class _MyHomePageState extends State<MyHomePage> {
+  final AuthService _auth = AuthService();
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  void _login() {
+    // TODO: LOGIN FUNCTIONALITY
+  }
+
+  void _signUp(BuildContext context) async {
+    String username = _usernameController.text;
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    User? user = await _auth.signUpWithEmailAndPassword(email, password);
+
+    if (context.mounted) {
+      Navigator.of(context).pop();
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  const DrawFirst()), // TODO ADD LOGIC FOR CHECKING IF THEY HAVE DONE THE DRAWP OF THE DAY OR NOT YET
+          (route) => false);
+    }
+    if (user != null) {
+      print("User successfully created!");
+    } else {
+      print("Error occured while creating new user");
+    }
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    _emailController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Set the status bar color
@@ -116,9 +154,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: const Text("Login",
                     style: TextStyle(fontWeight: FontWeight.bold))),
             const SizedBox(height: 70),
-            const TextButton(
-              onPressed: _create,
-              child: Text("Create an account"),
+            GestureDetector(
+              onTap: () => _signUp(context),
+              child: Container(
+                decoration: BoxDecoration(
+                    // color: Colors.purple.shade900,
+                    borderRadius: BorderRadius.circular(5)),
+                child: const Text(
+                  "Create an account",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             )
           ],
         ),
