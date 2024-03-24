@@ -31,7 +31,7 @@ class SearchState extends State<Search> {
     });
   }
 
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   String _searchTerm = '';
 
   @override
@@ -81,7 +81,7 @@ class SearchState extends State<Search> {
       ),
       body: 
         !_searchTerm.contains("m") || _searchData.isEmpty ? const Center(child: CircularProgressIndicator()) :
-        Container(
+        SizedBox(
           height: 400,
           child: ListView.builder(
         itemCount: _searchData.length,

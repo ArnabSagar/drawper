@@ -226,7 +226,7 @@ class _DetailedUserState extends State<DetailedUser> {
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         color:
-                                            Color.fromARGB(162, 198, 198, 198),
+                                            const Color.fromARGB(162, 198, 198, 198),
                                         width: 1)),
                                 child: Scrollbar(
                                     thickness: 5,
