@@ -17,7 +17,6 @@ class _LoginPageState extends State<LoginPage> {
   final showMessage = ToastMessage();
   bool _isSigning = false;
   final AuthService _auth = AuthService();
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
