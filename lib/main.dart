@@ -1,12 +1,8 @@
 import 'package:drawper/firebase_options.dart';
 import 'package:drawper/login_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:drawper/user_auth/auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'draw_first.dart';
 import 'dart:io';
 
 void main() async {
@@ -61,43 +57,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final AuthService _auth = AuthService();
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-
-  void _login() {
-    // TODO: LOGIN FUNCTIONALITY
-  }
-
-  void _signUp(BuildContext context) async {
-    String username = _usernameController.text;
-    String email = _emailController.text;
-    String password = _passwordController.text;
-
-    User? user = await _auth.signUpWithEmailAndPassword(email, password);
-
-    if (context.mounted) {
-      Navigator.of(context).pop();
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  const DrawFirst()), // TODO ADD LOGIC FOR CHECKING IF THEY HAVE DONE THE DRAWP OF THE DAY OR NOT YET
-          (route) => false);
-    }
-    if (user != null) {
-      print("User successfully created!");
-    } else {
-      print("Error occured while creating new user");
-    }
-  }
-
   @override
   void dispose() {
-    _usernameController.dispose();
-    _passwordController.dispose();
-    _emailController.dispose();
     super.dispose();
   }
 
