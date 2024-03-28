@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'draw.dart';
+import '../draw.dart';
 
 class DrawFirst extends StatefulWidget {
-  const DrawFirst({Key? key}) : super(key: key);
+  final User user;
+  const DrawFirst({Key? key, required this.user}) : super(key: key);
 
   @override
   DrawFirstState createState() => DrawFirstState();
@@ -50,8 +52,10 @@ class DrawFirstState extends State<DrawFirst> {
             icon: Image.asset('assets/icons/tap_to_start_drawing.png'),
             onPressed: () {
               Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Draw()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Draw(user: widget.user)));
             },
           ),
           const SizedBox(height: 30), // spacer for aesthetics

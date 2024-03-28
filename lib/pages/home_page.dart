@@ -1,15 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'feed.dart';
-import 'search.dart';
-import 'profile.dart';
-import 'menu_drawer.dart';
+import '../feed.dart';
+import '../search.dart';
+import '../profile.dart';
+import '../menu_drawer.dart';
 
 class HomePage extends StatefulWidget {
-  final Uint8List? newDrawing; 
+  final Uint8List? newDrawing;
+  final User user;
 
-  const HomePage({Key? key, this.newDrawing}) : super(key: key);
+  const HomePage({Key? key, this.newDrawing, required this.user})
+      : super(key: key);
 
   @override
   HomePageState createState() => HomePageState();
@@ -28,10 +31,17 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     //This is a screens list which you want to navigate through BottomNavigationBar
-    final List<Widget> children = [Feed(newDrawing: widget.newDrawing), const Search(), const Profile()];
+    final List<Widget> children = [
+      Feed(
+        newDrawing: widget.newDrawing,
+        user: widget.user,
+      ),
+      const Search(),
+      Profile(user: widget.user)
+    ];
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      drawer: const MenuDrawer(),
+      drawer: MenuDrawer(user: widget.user),
       body: children[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 25,

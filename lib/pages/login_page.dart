@@ -1,10 +1,12 @@
-import 'package:drawper/create_account_page.dart';
-import 'package:drawper/draw_first.dart';
+import 'package:drawper/pages/create_account_page.dart';
+import 'package:drawper/pages/draw_first.dart';
+import 'package:drawper/pages/home_page.dart';
+import 'package:drawper/services/storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:drawper/utils/form.dart';
 import 'package:drawper/utils/toastMessage.dart';
-import 'package:drawper/user_auth/auth.dart';
+import 'package:drawper/services/auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final showMessage = ToastMessage();
   bool _isSigning = false;
   final AuthService _auth = AuthService();
+  final StorageService _storage = StorageService();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -135,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Create account"),
+                  const Text("Don't have an account?"),
                   const SizedBox(
                     width: 5,
                   ),
@@ -165,6 +168,14 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  String _getDateString() {
+    DateTime now = DateTime.now();
+    String date = DateTime(now.year, now.month, now.day)
+        .toString()
+        .replaceAll("00:00:00.000", "");
+    return date;
+  }
+
   void _signIn(BuildContext context) async {
     setState(() {
       _isSigning = true;
@@ -179,16 +190,24 @@ class _LoginPageState extends State<LoginPage> {
       _isSigning = false;
     });
 
+    String fileName = "${user?.uid.toString()}_${_getDateString()}";
+
     if (user != null) {
       showMessage.toast(message: "Successfully logged in");
-      if (context.mounted) {
+      String fileNameCheck = await _storage.getDownloadURL(fileName);
+      if (context.mounted && fileNameCheck == "") {
         Navigator.pop(context);
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    const DrawFirst()), // TODO ADD LOGIC FOR CHECKING IF THEY HAVE DONE THE DRAWP OF THE DAY OR NOT YET
+                builder: (context) => DrawFirst(
+                      user: user,
+                    )),
             (route) => false);
+      } else if (context.mounted && fileNameCheck != "") {
+        Navigator.pop(context);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => HomePage(user: user)));
       }
     } else {
       showMessage.toast(message: "Login failed!");

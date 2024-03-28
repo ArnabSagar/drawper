@@ -1,10 +1,9 @@
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:intl/intl.dart';
 
-import 'profile.dart';
+import '../profile.dart';
 
 class DetailedUser extends StatefulWidget {
   const DetailedUser({Key? key}) : super(key: key);
@@ -91,8 +90,8 @@ class _DetailedUserState extends State<DetailedUser> {
                                           strokeAlign:
                                               BorderSide.strokeAlignOutside),
                                       image: DecorationImage(
-                                          image: NetworkImage(_userData[
-                                              'profilePicUrl']))))),
+                                          image: NetworkImage(
+                                              _userData['profilePicUrl']))))),
                           SizedBox(
                               // user info section beside profile picture
                               height: 100,
@@ -208,15 +207,15 @@ class _DetailedUserState extends State<DetailedUser> {
                               child: const Text("Email")),
                           const SizedBox(width: 10), // spacer for aesthetics
                           IconButton(
-                            style: const ButtonStyle(
-                              backgroundColor: MaterialStatePropertyAll(
-                                  Color.fromARGB(255, 233, 233, 233)),
-                              foregroundColor: MaterialStatePropertyAll(
-                                  Color.fromARGB(255, 66, 66, 66)),
-                            ),
-                            onPressed: () => {},
-                            icon: const Icon(Icons.report_outlined, size: 20, color: Colors.black45)
-                          )
+                              style: const ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll(
+                                    Color.fromARGB(255, 233, 233, 233)),
+                                foregroundColor: MaterialStatePropertyAll(
+                                    Color.fromARGB(255, 66, 66, 66)),
+                              ),
+                              onPressed: () => {},
+                              icon: const Icon(Icons.report_outlined,
+                                  size: 20, color: Colors.black45))
                         ]),
                     const SizedBox(height: 10), // spacer for aesthetics
                     Expanded(
@@ -225,16 +224,15 @@ class _DetailedUserState extends State<DetailedUser> {
                                 // Feed of past drawps/posts
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                        color:
-                                            const Color.fromARGB(162, 198, 198, 198),
+                                        color: const Color.fromARGB(
+                                            162, 198, 198, 198),
                                         width: 1)),
                                 child: Scrollbar(
                                     thickness: 5,
                                     child: ListView.builder(
                                         itemCount: _userData['posts'].length,
                                         itemBuilder: (context, index) {
-                                          var post =
-                                              _userData['posts'][index];
+                                          var post = _userData['posts'][index];
                                           var viewsDisplay =
                                               getNumberDisplay(post['views']);
                                           var likesDisplay =

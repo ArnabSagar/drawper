@@ -1,6 +1,6 @@
-import 'package:drawper/draw_first.dart';
-import 'package:drawper/login_page.dart';
-import 'package:drawper/user_auth/auth.dart';
+import 'package:drawper/pages/draw_first.dart';
+import 'package:drawper/pages/login_page.dart';
+import 'package:drawper/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:drawper/utils/toastMessage.dart';
@@ -147,7 +147,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     String email = _emailController.text;
     String password = _passwordController.text;
 
-    User? user = await _auth.signUpWithEmailAndPassword(email, password);
+    User? user =
+        await _auth.signUpWithEmailAndPassword(email, password, username);
 
     setState(() {
       isSigningUp = false;
@@ -159,8 +160,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    const DrawFirst()), // TODO ADD LOGIC FOR CHECKING IF THEY HAVE DONE THE DRAWP OF THE DAY OR NOT YET
+                builder: (context) => DrawFirst(
+                      user: user,
+                    )), // TODO ADD LOGIC FOR CHECKING IF THEY HAVE DONE THE DRAWP OF THE DAY OR NOT YET
             (route) => false);
       }
     } else {

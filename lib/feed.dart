@@ -1,12 +1,14 @@
-import 'package:drawper/post_details.dart';
+import 'package:drawper/pages/post_details.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
 class Feed extends StatefulWidget {
   final Uint8List? newDrawing;
+  final User user;
 
-  const Feed({Key? key, this.newDrawing}) : super(key: key);
+  const Feed({Key? key, this.newDrawing, required this.user}) : super(key: key);
 
   @override
   FeedState createState() => FeedState();

@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'menu_drawer.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({Key? key}) : super(key: key);
+  final User user;
+  const Settings({Key? key, required this.user}) : super(key: key);
 
   @override
   SettingsState createState() => SettingsState();
@@ -20,7 +22,9 @@ class SettingsState extends State<Settings> {
           textAlign: TextAlign.center,
         ),
       ),
-      drawer: const MenuDrawer(),
+      drawer: MenuDrawer(
+        user: widget.user,
+      ),
       body: const Center(child: Text("Settings Page")),
     );
   }
