@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "738783354110",
+    "project_id": "drawper",
+    "storage_bucket": "drawper.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:738783354110:android:73bef40a4ff53967e7d9af",
+        "android_client_info": {
+          "package_name": "com.example.drawper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1YBBJRWu10e37aQQwsAsgtCXwhdVCfrY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

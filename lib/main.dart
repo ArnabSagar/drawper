@@ -1,10 +1,14 @@
+import 'package:drawper/firebase_options.dart';
+import 'package:drawper/pages/login_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'draw_first.dart';
 import 'dart:io';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   HttpOverrides.global =
       MyHttpOverrides(); // TODO : Note this is a hacky thing because images from url were having certificate error
   runApp(const MyApp());
@@ -52,16 +56,12 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-// ignore: unused_element
-void _login() {
-  // TODO: LOGIN FUNCTIONALITY
-}
-
-void _create() {
-  // TODO: CREATE ACCOUNT FUNCTIONALITY
-}
-
 class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Set the status bar color
@@ -70,59 +70,6 @@ class _MyHomePageState extends State<MyHomePage> {
           .shade900, // Change this color to your desired status bar color
       statusBarIconBrightness: Brightness.light,
     ));
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            const SizedBox(height: 50),
-            const Image(
-              image: AssetImage('assets/images/DrawperFullLogo.png'),
-              width: 325
-            ),
-            const SizedBox(height: 5),
-            const SizedBox(
-              width: 300,
-              child: TextField(
-                decoration: InputDecoration(labelText: "Username"),
-              ),
-            ),
-            const SizedBox(
-              width: 300,
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(labelText: "Password"),
-              ),
-            ),
-            const SizedBox(height: 30),
-            TextButton(
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStatePropertyAll(Colors.purple.shade900),
-                  foregroundColor: const MaterialStatePropertyAll(Colors.white),
-                  overlayColor: const MaterialStatePropertyAll(
-                      Color.fromARGB(255, 56, 15, 106)),
-                ),
-                onPressed: () => {
-                      Navigator.pop(context),
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const DrawFirst()), // TODO ADD LOGIC FOR CHECKING IF THEY HAVE DONE THE DRAWP OF THE DAY OR NOT YET
-                          (route) => false)
-                    },
-                child: const Text("Login",
-                    style: TextStyle(fontWeight: FontWeight.bold))),
-            const SizedBox(height: 60),
-            const TextButton(
-              onPressed: _create,
-              child: Text("Create an account"),
-            )
-          ],
-        ),
-      ),
-    );
+    return const Scaffold(resizeToAvoidBottomInset: false, body: LoginPage());
   }
 }

@@ -1,11 +1,14 @@
 import 'package:drawper/menu_drawer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+  final User user;
+
+  const Profile({Key? key, required this.user}) : super(key: key);
 
   @override
   ProfileState createState() => ProfileState();
@@ -82,7 +85,7 @@ class ProfileState extends State<Profile> {
           ),
           backgroundColor: Colors.purple.shade900,
         ),
-        drawer: const MenuDrawer(),
+        drawer: MenuDrawer(user: widget.user),
         resizeToAvoidBottomInset: false,
         body: _profileData.isEmpty // TODO ADD FUTURE BUILDER HERE INSTEAD?
             ? const Center(
@@ -244,7 +247,8 @@ class ProfileState extends State<Profile> {
                                     Color.fromARGB(255, 66, 66, 66)),
                               ),
                               onPressed: () => {},
-                              icon: const Icon(Icons.settings, size: 20, color: Colors.black45)),
+                              icon: const Icon(Icons.settings,
+                                  size: 20, color: Colors.black45)),
                         ]),
                     const SizedBox(height: 10), // spacer for aesthetics
                     Expanded(
@@ -253,8 +257,8 @@ class ProfileState extends State<Profile> {
                                 // Feed of past drawps/posts
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                        color:
-                                            const Color.fromARGB(162, 198, 198, 198),
+                                        color: const Color.fromARGB(
+                                            162, 198, 198, 198),
                                         width: 1)),
                                 child: Scrollbar(
                                     thickness: 5,
