@@ -47,19 +47,21 @@ class DatabaseService {
     });
   }
 
-  Future createPostData(String email, String username) async {
+  Future createPostData(String authorUName, String authorUID, String imageURL, String timestamp) async { 
     return await usersCollection.doc(uid).set({
       // Key value pairs of the user properties when creating a new account
-      "username": username,
-      "name": "",
-      "email": email,
-      "profilePicUrl":
-          "https://i.pinimg.com/564x/7f/26/e7/7f26e71b2c84e6b16d4f6d3fd8a58bca.jpg",
-      "bio": "",
-      "points": 0,
-      "followers": [],
-      "following": [],
-      "posts": []
+      "likes": 6, //randomize 
+      "dislikes": 2,
+      "views": 8,
+      "imageURL": imageURL,
+      "authorUName": authorUName,
+      "authorUID": authorUID,
+      "timestamp": timestamp,
+      "comments": [{"userId": "bruh", "commentStr":"omg so cool!"}], // make sure aligns with post detial view json thing
     });
+  }
+
+  Future getPostData() async {
+    return await usersCollection.get();
   }
 }
