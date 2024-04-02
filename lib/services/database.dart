@@ -47,8 +47,8 @@ class DatabaseService {
     });
   }
 
-  Future createPostData(String authorUName, String authorUID, String imageURL, String timestamp) async { 
-    return await usersCollection.doc(uid).set({
+  Future createPostData(String authorUName, String authorUID, String imageURL, String timestamp, String prompt) async { 
+    return await drawpsCollection.doc(uid).set({
       // Key value pairs of the user properties when creating a new account
       "likes": 6, //randomize 
       "dislikes": 2,
@@ -57,11 +57,16 @@ class DatabaseService {
       "authorUName": authorUName,
       "authorUID": authorUID,
       "timestamp": timestamp,
-      "comments": [{"userId": "bruh", "commentStr":"omg so cool!"}], // make sure aligns with post detial view json thing
+      "prompt": prompt,
+      "comments": [{"userId": "bruh", "userName": "plankton", "commentStr":"omg so cool!"}],
     });
   }
 
-  Future getPostData() async {
-    return await usersCollection.get();
+  Future getAllPostData() async {
+    return await drawpsCollection.get();
+  }
+
+  Future getFollowingPostData() async {
+    return await drawpsCollection.get();
   }
 }

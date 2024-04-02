@@ -2,6 +2,7 @@ import 'package:drawper/pages/post_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:drawper/services/database.dart';
 import 'dart:convert';
 
 class Feed extends StatefulWidget {
@@ -16,19 +17,30 @@ class Feed extends StatefulWidget {
 
 class FeedState extends State<Feed> {
   List<dynamic> _posts = [];
+  List<dynamic> _all_posts = [];
+  bool everyone = false; 
 
   @override
   void initState() {
     super.initState();
-    readJson();
+    loadFromDb();
+    // readJson();
   }
 
-  Future<void> readJson() async {
-    final String response =
-        await rootBundle.loadString('assets/test_files/feed_data.json');
-    final data = await json.decode(response);
+  // Future<void> readJson() async {
+  //   final String response =
+  //       await rootBundle.loadString('assets/test_files/feed_data.json');
+  //   final data = await json.decode(response);
+  //   setState(() {
+  //     _posts = data["feed"];
+  //   });
+  // }
+
+  Future<void> loadFromDb() async {
+    DatabaseService db_serv = DatabaseService(uid: widget.user.uid);
     setState(() {
-      _posts = data["feed"];
+      _posts = db_serv.getFollowingPostData() as List;
+      _all_posts = db_serv.getAllPostData() as List;
     });
   }
 
@@ -50,14 +62,22 @@ class FeedState extends State<Feed> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      everyone = false; 
+                    });
+                  },
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(1))),
                   child: const Text("FRIENDS"),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      everyone = true; 
+                    });
+                  },
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(1))),
@@ -71,36 +91,9 @@ class FeedState extends State<Feed> {
                   scrollDirection: Axis.vertical,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2),
-                  itemCount: widget.newDrawing != null
-                      ? _posts.length + 1
-                      : _posts.length,
+                  itemCount: _posts.length,
                   itemBuilder: (BuildContext c, int i) {
-                    if (i == 0 && widget.newDrawing != null) {
-                      return Container(
-                          padding: const EdgeInsets.all(1.0),
-                          height: 160,
-                          child: InkWell(
-                              onTap: () {},
-                              child: Column(
-                                children: [
-                                  const Text("yourusername",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500)),
-                                  const SizedBox(height: 1),
-                                  Image.memory(
-                                    widget.newDrawing!,
-                                    fit: BoxFit.contain,
-                                    width: 120,
-                                    height: 120,
-                                  ),
-                                ],
-                              )));
-                    }
-
-                    Map<String, dynamic> post =
-                        _posts[widget.newDrawing != null ? i - 1 : i];
+                    Map<String, dynamic> post = everyone ? _all_posts[i] : _posts[i];
                     return Container(
                         padding: const EdgeInsets.all(1.0),
                         height: 160,
@@ -115,14 +108,14 @@ class FeedState extends State<Feed> {
                             },
                             child: Column(
                               children: [
-                                Text(post['author']['username'],
+                                Text(post['authorUName'],
                                     style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500)),
                                 const SizedBox(height: 1),
                                 Image(
-                                  image: NetworkImage(post['image_url']),
+                                  image: NetworkImage(post['imageURL']),
                                   fit: BoxFit.contain,
                                   width: 120,
                                   height: 120,

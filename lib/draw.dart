@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'dart:io';
+import 'package:drawper/services/database.dart';
 import 'package:drawper/services/storage.dart';
 import 'package:drawper/utils/toastMessage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,6 +22,7 @@ class Draw extends StatefulWidget {
 class DrawState extends State<Draw> {
   final ScreenshotController screenshotController = ScreenshotController();
   final StorageService _storage = StorageService();
+  late DatabaseService _databaseService;
   final logger = ToastMessage();
 
   List<Line> lines = [];
@@ -31,6 +33,11 @@ class DrawState extends State<Draw> {
   StrokeCap strokeShape = StrokeCap.round; // Initial stroke shape
   bool isEraserSelected =
       false; // Variable to track whether eraser tool is selected
+
+  @override
+  void initState() {
+    _databaseService = DatabaseService(uid: widget.user.uid);
+  }
 
   Future _uploadDrawper(
       BuildContext context, Uint8List file, String filename) async {
@@ -43,6 +50,9 @@ class DrawState extends State<Draw> {
                 builder: (context) =>
                     HomePage(newDrawing: file, user: widget.user)));
         await _storage.uploadFile(file, filename);
+        String imageURL = _storage.getDownloadURL(filename) as String;
+        String timestamp = _getDateString();
+        await _databaseService.createPostData(widget.user.displayName!, widget.user.uid, imageURL, timestamp, "Cats");
         logger.toast(message: "File succesfully created!\nLogging in");
       }
     } catch (e) {
