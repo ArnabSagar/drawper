@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'dart:io';
+import 'package:drawper/services/database.dart';
 import 'package:drawper/services/storage.dart';
 import 'package:drawper/utils/toastMessage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,6 +22,7 @@ class Draw extends StatefulWidget {
 class DrawState extends State<Draw> {
   final ScreenshotController screenshotController = ScreenshotController();
   final StorageService _storage = StorageService();
+  late DatabaseService _databaseService;
   final logger = ToastMessage();
 
   List<Line> lines = [];
@@ -32,8 +34,13 @@ class DrawState extends State<Draw> {
   bool isEraserSelected =
       false; // Variable to track whether eraser tool is selected
 
-  Future _uploadDrawper(
-      BuildContext context, Uint8List file, String filename) async {
+  @override
+  void initState() {
+    super.initState();
+    _databaseService = DatabaseService(uid: widget.user.uid);
+  }
+
+  Future _uploadDrawper(Uint8List file, String filename) async {
     try {
       if (context.mounted) {
         Navigator.pop(context);
@@ -43,10 +50,16 @@ class DrawState extends State<Draw> {
                 builder: (context) =>
                     HomePage(newDrawing: file, user: widget.user)));
         await _storage.uploadFile(file, filename);
+        String imageURL = await _storage.getDownloadURL(filename);
+        String timestamp = _getDateString();
+        print("User: ${widget.user}");
+        print("Display Name: ${widget.user.displayName}");
+        await _databaseService.createPostData(widget.user.displayName ?? "displaynamenotfound", widget.user.uid, imageURL, timestamp, "Cats");
         logger.toast(message: "File succesfully created!\nLogging in");
       }
     } catch (e) {
       logger.toast(message: "$e");
+      print(e);
     }
   }
 
@@ -223,7 +236,8 @@ class DrawState extends State<Draw> {
                 String fileName =
                     "${widget.user.uid.toString()}_${_getDateString()}";
 
-                _uploadDrawper(context, img, fileName);
+                //_uploadDrawper(context, img, fileName);
+                _uploadDrawper(img, fileName);
               }
             },
             child: const Text('Drawp It!'),

@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 // Generates the desired display of the given date, which must be in YYYY-MM-DD format
-String getDateDisplay(String date) {
-  DateTime dateTime = DateTime.parse(date);
-  String formattedDate = DateFormat('MMMM d, yyyy').format(dateTime);
-  return formattedDate;
-}
+// String getDateDisplay(String date) {
+//   try {
+//     DateTime dateTime = DateTime.parse(date);
+//     String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
+//     return formattedDate;
+//   } catch (e) {
+//     print('Error parsing date: $e');
+//     return 'Invalid Date';
+//   }
+// }
 
 class PostDetails extends StatefulWidget {
   const PostDetails({super.key, required this.post});
@@ -23,7 +28,7 @@ class PostDetailsState extends State<PostDetails> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          '@${widget.post['author']['username']}\'s drawp',
+          '@${widget.post['authorUName']}\'s drawp',
           style: const TextStyle(color: Colors.white),
           textAlign: TextAlign.center,
         ),
@@ -46,7 +51,7 @@ class PostDetailsState extends State<PostDetails> {
                             fontWeight: FontWeight.bold,
                             fontSize: 18)),
                     TextSpan(
-                        text: getDateDisplay(widget.post['post_date']),
+                        text: widget.post['timestamp'],
                         style:
                             const TextStyle(color: Colors.black, fontSize: 18)),
                   ],
@@ -62,7 +67,7 @@ class PostDetailsState extends State<PostDetails> {
                             fontWeight: FontWeight.bold,
                             fontSize: 18)),
                     TextSpan(
-                        text: '${widget.post['prompt']['title']}',
+                        text: '${widget.post['prompt']}',
                         style:
                             const TextStyle(color: Colors.black, fontSize: 18)),
                   ],
@@ -70,7 +75,7 @@ class PostDetailsState extends State<PostDetails> {
               ),
             ],
           ),
-          Image(image: NetworkImage(widget.post['image_url'])),
+          Image(image: NetworkImage(widget.post['imageURL'])),
           const SizedBox(
             height: 10,
           ),
@@ -153,9 +158,9 @@ class PostDetailsState extends State<PostDetails> {
                       itemBuilder: (BuildContext c, int i) {
                         return ListTile(
                           title: Text(
-                              '${widget.post['comments'][i]['user']['username']}:'),
+                              '${widget.post['comments'][i]['userName']}:'),
                           subtitle:
-                              Text(' ${widget.post['comments'][i]['content']}'),
+                              Text(' ${widget.post['comments'][i]['commentStr']}'),
                         );
                       })),
         ],
