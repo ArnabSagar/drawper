@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drawper/utils/toastMessage.dart';
+import 'dart:math';
 
 class DatabaseService {
   final String uid;
@@ -48,17 +49,23 @@ class DatabaseService {
   }
 
   Future createPostData(String authorUName, String authorUID, String imageURL, String timestamp, String prompt) async { 
+
+    Random random = Random();
+    int likes = random.nextInt(100); 
+    int dislikes = random.nextInt(100);
+    int views = random.nextInt(100);
+
     return await drawpsCollection.doc(uid).set({
       // Key value pairs of the user properties when creating a new account
-      "likes": 6, //randomize 
-      "dislikes": 2,
-      "views": 8,
+      "likes": likes, //randomize 
+      "dislikes": dislikes,
+      "views": views,
       "imageURL": imageURL,
       "authorUName": authorUName,
       "authorUID": authorUID,
       "timestamp": timestamp,
       "prompt": prompt,
-      "comments": [{"userId": "bruh", "userName": "plankton", "commentStr":"omg so cool!"}],
+      "comments": [{"userId": "bruh", "userName": "plankton", "commentStr":"omg so cool!"}, {"userId": "bruh2", "userName": "squidward", "commentStr":"i could do it better tbh."} ],
     });
   }
 

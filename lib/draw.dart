@@ -52,6 +52,8 @@ class DrawState extends State<Draw> {
         await _storage.uploadFile(file, filename);
         String imageURL = await _storage.getDownloadURL(filename);
         String timestamp = _getDateString();
+        print("User: ${widget.user}");
+        print("Display Name: ${widget.user.displayName}");
         await _databaseService.createPostData(widget.user.displayName ?? "displaynamenotfound", widget.user.uid, imageURL, timestamp, "Cats");
         logger.toast(message: "File succesfully created!\nLogging in");
       }

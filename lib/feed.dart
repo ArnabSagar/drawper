@@ -20,6 +20,7 @@ class FeedState extends State<Feed> {
   // ignore: non_constant_identifier_names
   List<Map<String,dynamic>> _all_posts = [];
   bool everyone = false; 
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -44,9 +45,9 @@ class FeedState extends State<Feed> {
     setState(() {
       _posts = followingPosts;
       _all_posts = allPosts;
+      isLoading = false;
     });
-    print(followingPosts);
-    print("omg");
+    // print(followingPosts);
   }
 
   @override
@@ -60,7 +61,11 @@ class FeedState extends State<Feed> {
             textAlign: TextAlign.center,
           ),
         ),
-        body: Column(children: [
+        body: isLoading ? // Show loading indicator if isLoading is true
+        const Center(
+          child: CircularProgressIndicator(),
+        ) 
+        : Column(children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(5, 15, 5, 15),
             child: Row(

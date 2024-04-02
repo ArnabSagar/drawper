@@ -18,7 +18,8 @@ class AuthService {
           .createUserData(email, username);
 
       await credential.user!.updateDisplayName(username);
-      return credential.user;
+      await credential.user!.reload();
+      return _auth.currentUser;
     } catch (e) {
       logger.toast(message: 'Sign up error occured: $e');
     }

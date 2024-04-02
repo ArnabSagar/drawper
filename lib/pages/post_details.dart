@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 // Generates the desired display of the given date, which must be in YYYY-MM-DD format
-String getDateDisplay(String date) {
-  DateTime dateTime = DateTime.parse(date);
-  String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
-  return formattedDate;
-}
+// String getDateDisplay(String date) {
+//   try {
+//     DateTime dateTime = DateTime.parse(date);
+//     String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
+//     return formattedDate;
+//   } catch (e) {
+//     print('Error parsing date: $e');
+//     return 'Invalid Date';
+//   }
+// }
 
 class PostDetails extends StatefulWidget {
   const PostDetails({super.key, required this.post});
@@ -46,7 +51,7 @@ class PostDetailsState extends State<PostDetails> {
                             fontWeight: FontWeight.bold,
                             fontSize: 18)),
                     TextSpan(
-                        text: getDateDisplay(widget.post['timestamp']),
+                        text: widget.post['timestamp'],
                         style:
                             const TextStyle(color: Colors.black, fontSize: 18)),
                   ],
