@@ -50,13 +50,14 @@ class DrawState extends State<Draw> {
                 builder: (context) =>
                     HomePage(newDrawing: file, user: widget.user)));
         await _storage.uploadFile(file, filename);
-        String imageURL = _storage.getDownloadURL(filename) as String;
+        String imageURL = await _storage.getDownloadURL(filename);
         String timestamp = _getDateString();
-        await _databaseService.createPostData(widget.user.displayName!, widget.user.uid, imageURL, timestamp, "Cats");
+        await _databaseService.createPostData(widget.user.displayName ?? "displaynamenotfound", widget.user.uid, imageURL, timestamp, "Cats");
         logger.toast(message: "File succesfully created!\nLogging in");
       }
     } catch (e) {
       logger.toast(message: "$e");
+      print(e);
     }
   }
 

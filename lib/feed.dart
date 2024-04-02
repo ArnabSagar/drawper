@@ -1,3 +1,4 @@
+import 'package:drawper/draw.dart';
 import 'package:drawper/pages/post_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +16,9 @@ class Feed extends StatefulWidget {
 }
 
 class FeedState extends State<Feed> {
-  late List<Map<String,dynamic>> _posts;
+  List<Map<String,dynamic>> _posts = [];
   // ignore: non_constant_identifier_names
-  late List<Map<String,dynamic>> _all_posts;
+  List<Map<String,dynamic>> _all_posts = [];
   bool everyone = false; 
 
   @override
@@ -38,10 +39,14 @@ class FeedState extends State<Feed> {
 
   Future<void> loadFromDb() async {
     DatabaseService dbServ = DatabaseService(uid: widget.user.uid);
-    setState(() async {
-      _posts = await dbServ.getFollowingPostData();
-      _all_posts = await dbServ.getAllPostData();
+    List<Map<String, dynamic>> followingPosts = await dbServ.getFollowingPostData();
+    List<Map<String, dynamic>> allPosts = await dbServ.getAllPostData();
+    setState(() {
+      _posts = followingPosts;
+      _all_posts = allPosts;
     });
+    print(followingPosts);
+    print("omg");
   }
 
   @override
@@ -76,13 +81,15 @@ class FeedState extends State<Feed> {
                   onPressed: () {
                     setState(() {
                       everyone = true; 
+                      loadFromDb();
+                      print(_all_posts);
                     });
                   },
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(1))),
                   child: const Text("EVERYONE"),
-                )
+                ),
               ],
             ),
           ),

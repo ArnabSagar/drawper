@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 // Generates the desired display of the given date, which must be in YYYY-MM-DD format
 String getDateDisplay(String date) {
   DateTime dateTime = DateTime.parse(date);
-  String formattedDate = DateFormat('MMMM d, yyyy').format(dateTime);
+  String formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
   return formattedDate;
 }
 
