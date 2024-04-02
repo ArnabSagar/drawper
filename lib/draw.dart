@@ -36,11 +36,11 @@ class DrawState extends State<Draw> {
 
   @override
   void initState() {
+    super.initState();
     _databaseService = DatabaseService(uid: widget.user.uid);
   }
 
-  Future _uploadDrawper(
-      BuildContext context, Uint8List file, String filename) async {
+  Future _uploadDrawper(Uint8List file, String filename) async {
     try {
       if (context.mounted) {
         Navigator.pop(context);
@@ -233,7 +233,8 @@ class DrawState extends State<Draw> {
                 String fileName =
                     "${widget.user.uid.toString()}_${_getDateString()}";
 
-                _uploadDrawper(context, img, fileName);
+                //_uploadDrawper(context, img, fileName);
+                _uploadDrawper(img, fileName);
               }
             },
             child: const Text('Drawp It!'),

@@ -62,11 +62,26 @@ class DatabaseService {
     });
   }
 
-  Future getAllPostData() async {
-    return await drawpsCollection.get();
+  Future<List<Map<String,dynamic>>> getAllPostData() async {
+    // Query to get all documents from the collection
+    QuerySnapshot querySnapshot = await drawpsCollection.get();
+
+    // List to hold the results
+    List<Map<String, dynamic>> resultList = [];
+
+    // Iterate through the documents
+    for (QueryDocumentSnapshot docSnapshot in querySnapshot.docs) {
+      // Convert each document to a Map
+      Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+      resultList.add(data);
+    }
+
+    // Return the list of documents
+    return resultList;
   }
 
-  Future getFollowingPostData() async {
-    return await drawpsCollection.get();
+  Future<List<Map<String,dynamic>>> getFollowingPostData() async {
+    // TODO
+    return getAllPostData();
   }
 }

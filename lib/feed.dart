@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:drawper/services/database.dart';
-import 'dart:convert';
 
 class Feed extends StatefulWidget {
   final Uint8List? newDrawing;
@@ -16,8 +15,9 @@ class Feed extends StatefulWidget {
 }
 
 class FeedState extends State<Feed> {
-  List<dynamic> _posts = [];
-  List<dynamic> _all_posts = [];
+  late List<Map<String,dynamic>> _posts;
+  // ignore: non_constant_identifier_names
+  late List<Map<String,dynamic>> _all_posts;
   bool everyone = false; 
 
   @override
@@ -37,10 +37,10 @@ class FeedState extends State<Feed> {
   // }
 
   Future<void> loadFromDb() async {
-    DatabaseService db_serv = DatabaseService(uid: widget.user.uid);
-    setState(() {
-      _posts = db_serv.getFollowingPostData() as List;
-      _all_posts = db_serv.getAllPostData() as List;
+    DatabaseService dbServ = DatabaseService(uid: widget.user.uid);
+    setState(() async {
+      _posts = await dbServ.getFollowingPostData();
+      _all_posts = await dbServ.getAllPostData();
     });
   }
 
