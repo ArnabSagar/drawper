@@ -1,9 +1,12 @@
 import 'package:drawper/menu_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+
+import 'pages/edit_profile.dart';
 
 class Profile extends StatefulWidget {
   final User user;
@@ -46,30 +49,54 @@ String getDateDisplay(String date) {
 
 class ProfileState extends State<Profile> {
   dynamic _profileData = {};
+  dynamic _userData = {};
+  String uid = "N/A";
 
   @override
   void initState() {
     super.initState();
-    _loadJsonData();
+    _loadUserData();
   }
 
-  // Loads all of the JSON data for the profile page
-  Future<void> _loadJsonData() async {
-    String jsonString =
-        await rootBundle.loadString('assets/test_files/profile_data.json');
-    Map<String, dynamic> jsonData = json.decode(jsonString);
+  // Loads all of the user data for the profile page
+  Future<void> _loadUserData() async {
+    // Get current user
+    User? user = FirebaseAuth.instance.currentUser;
 
-    String pointsStr = getNumberDisplay(jsonData['points']);
-    String followersStr = getNumberDisplay(jsonData['followers']);
-    String drawpsStr = getNumberDisplay(jsonData['drawps']);
+    if (user != null) {
+      // User is signed in, retrieve their data from Firestore
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid) // Assuming the UID is used as the document ID
+          .get();
+
+      // Access user data
+      if (userSnapshot.exists) {
+        // User document exists, you can access its data
+        _userData = userSnapshot.data();
+        print('User data: $_userData');
+      } else {
+        // User document doesn't exist, handle accordingly
+        print('User document does not exist.');
+      }
+    } else {
+      // No user signed in, handle accordingly
+      print('No user signed-in.');
+      return;
+    }
+
+    String pointsStr = getNumberDisplay(_userData['points']);
+    String followersStr = getNumberDisplay(_userData['followers'].length);
+    String drawpsStr = getNumberDisplay(_userData['posts'].length);
 
     setState(() {
       _profileData = {
-        ...jsonData,
+        ..._userData,
         'pointsDisplay': pointsStr,
         'followersDisplay': followersStr,
         'drawpsDisplay': drawpsStr,
       };
+      uid = user.uid;
     });
   }
 
@@ -205,13 +232,12 @@ class ProfileState extends State<Profile> {
                     const SizedBox(height: 10), // spacer for aesthetics
                     Row(
                         // Name display of user
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          const SizedBox(width: 5),
                           Text(_profileData['name'],
                               style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold)),
-                          const SizedBox(width: 150),
+                          const SizedBox(width: 5),
                           const SizedBox(width: 5),
                         ]),
                     const SizedBox(height: 10), // spacer for aesthetics
@@ -226,7 +252,22 @@ class ProfileState extends State<Profile> {
                                 foregroundColor: MaterialStatePropertyAll(
                                     Color.fromARGB(255, 66, 66, 66)),
                               ),
-                              onPressed: () => {},
+                              onPressed: () => {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditProfile(uid: uid, userInfo: _userData),
+                                  ),
+                                ).then((updatedUserData) {
+                                  if (updatedUserData != null) {
+                                    // Update the UI with the updated data
+                                    setState(() {
+                                      _userData = updatedUserData;
+                                      _loadUserData();
+                                    });
+                                  }
+                                })
+                              },
                               child: const Text("Edit Profile")),
                           const SizedBox(width: 10), // spacer for aesthetics
                           TextButton(
@@ -260,7 +301,7 @@ class ProfileState extends State<Profile> {
                                         color: const Color.fromARGB(
                                             162, 198, 198, 198),
                                         width: 1)),
-                                child: Scrollbar(
+                                child: _profileData['posts'].isEmpty ? const Center(child: Text("No drawps yet!")) : Scrollbar(
                                     thickness: 5,
                                     child: ListView.builder(
                                         itemCount: _profileData['posts'].length,

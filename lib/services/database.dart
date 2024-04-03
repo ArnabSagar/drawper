@@ -34,15 +34,24 @@ class DatabaseService {
     }
   }
 
-  Future updateUserData() async {
-    return await usersCollection.doc(uid).set({
+  Future updateUserData(String id, dynamic userInfo) async {
+    return await usersCollection.doc(id).set({
       // Function to update user data, edited by user through profile settings
       // profile picture, bio, name.
+      "username": userInfo['username'],
+        "name": userInfo['name'],
+        "email": userInfo['email'],
+        "profilePicUrl": userInfo['profilePicUrl'],
+        "bio": userInfo['bio'],
+        "points": userInfo['points'],
+        "followers": userInfo['followers'],
+        "following": userInfo['following'],
+        "posts": userInfo['posts'],
       /* You shouldn't be able to change the user's 
           1. email
           2. followers - it is updated only if someone follows or unfollows you
           3. following - it is updated only if you follow or unfollow someone
-          4. posts - should only change when creationg or deleting posts
+          4. posts - should only change when creating or deleting posts
           5. points          
       */
     });

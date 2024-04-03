@@ -33,23 +33,22 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text("Login"),
+        automaticallyImplyLeading: false
       ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              const SizedBox(
+                height: 10,
+              ),
               const Image(
                   image: AssetImage('assets/images/DrawperFullLogo.png'),
                   width: 325),
-              const Text(
-                "Login",
-                style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
-              ),
               const SizedBox(
                 height: 30,
               ),

@@ -41,6 +41,13 @@ class MyApp extends StatelessWidget {
         ),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple.shade900),
         useMaterial3: true,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(Colors.purple.shade900),
+            foregroundColor: const MaterialStatePropertyAll(Colors.white),
+            shadowColor: MaterialStatePropertyAll(Colors.purple.shade700),
+          )
+        )
       ),
       home: const MyHomePage(title: 'Drawper Login Page'),
       debugShowCheckedModeBanner: false,
