@@ -1,4 +1,3 @@
-import 'package:drawper/draw.dart';
 import 'package:drawper/pages/post_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -26,17 +25,7 @@ class FeedState extends State<Feed> {
   void initState() {
     super.initState();
     loadFromDb();
-    // readJson();
   }
-
-  // Future<void> readJson() async {
-  //   final String response =
-  //       await rootBundle.loadString('assets/test_files/feed_data.json');
-  //   final data = await json.decode(response);
-  //   setState(() {
-  //     _posts = data["feed"];
-  //   });
-  // }
 
   Future<void> loadFromDb() async {
     DatabaseService dbServ = DatabaseService(uid: widget.user.uid);

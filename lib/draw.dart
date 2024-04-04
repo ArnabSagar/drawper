@@ -43,19 +43,37 @@ class DrawState extends State<Draw> {
   Future _uploadDrawper(Uint8List file, String filename) async {
     try {
       if (context.mounted) {
-        Navigator.pop(context);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    HomePage(newDrawing: file, user: widget.user)));
+        // Show loading widget
+        showDialog(
+          context: context,
+          barrierDismissible: false, // Prevent user from dismissing dialog
+          builder: (BuildContext context) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        );
+
         await _storage.uploadFile(file, filename);
         String imageURL = await _storage.getDownloadURL(filename);
         String timestamp = _getDateString();
-        print("User: ${widget.user}");
-        print("Display Name: ${widget.user.displayName}");
         await _databaseService.createPostData(widget.user.displayName ?? "displaynamenotfound", widget.user.uid, imageURL, timestamp, "Cats");
-        logger.toast(message: "File succesfully created!\nLogging in");
+        logger.toast(message: "File successfully created!\nLogging in");
+
+        // Hide loading widget
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context); // Dismiss dialog
+
+        // Navigate after upload
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context);
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(newDrawing: file, user: widget.user),
+          ),
+        );
       }
     } catch (e) {
       logger.toast(message: "$e");
