@@ -216,12 +216,20 @@ class _DetailedUserState extends State<DetailedUser> {
                         children: [
                           (followingRelationship != 2) ?
                           TextButton(
-                              style: const ButtonStyle(
-                                backgroundColor: MaterialStatePropertyAll(
-                                    Color.fromARGB(255, 233, 233, 233)),
-                                foregroundColor: MaterialStatePropertyAll(
-                                    Color.fromARGB(255, 66, 66, 66)),
-                              ),
+                              style: followButtonText == "Following" ?
+                                ButtonStyle(
+                                  backgroundColor: MaterialStatePropertyAll(
+                                      Colors.purple.shade900),
+                                  foregroundColor: const MaterialStatePropertyAll(
+                                      Colors.white),
+                                )
+                                :
+                                const ButtonStyle(
+                                  backgroundColor: MaterialStatePropertyAll(
+                                      Color.fromARGB(255, 233, 233, 233)),
+                                  foregroundColor: MaterialStatePropertyAll(
+                                      Color.fromARGB(255, 66, 66, 66)),
+                                ),
                               onPressed: () async {
                                 if (followingRelationship == 0){
                                   // add this person to your following list
@@ -248,11 +256,11 @@ class _DetailedUserState extends State<DetailedUser> {
                           const SizedBox(width: 10), // spacer for aesthetics
                           TextButton(
                               style: const ButtonStyle(
-                                backgroundColor: MaterialStatePropertyAll(
-                                    Color.fromARGB(255, 233, 233, 233)),
-                                foregroundColor: MaterialStatePropertyAll(
-                                    Color.fromARGB(255, 66, 66, 66)),
-                              ),
+                                  backgroundColor: MaterialStatePropertyAll(
+                                      Color.fromARGB(255, 233, 233, 233)),
+                                  foregroundColor: MaterialStatePropertyAll(
+                                      Color.fromARGB(255, 66, 66, 66)),
+                                ),
                               onPressed: () => {},
                               child: const Text("Email")),
                           const SizedBox(width: 10), // spacer for aesthetics

@@ -32,48 +32,24 @@ class PostDetailsState extends State<PostDetails> {
           textAlign: TextAlign.center,
         ),
       ),
-      body: Column(
+      body: SingleChildScrollView(
+        child: Column(
         children: [
           const SizedBox(
             height: 10,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               RichText(
                 text: TextSpan(
-                  children: [
-                    const TextSpan(
-                        text: 'Date: ',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18)),
-                    TextSpan(
-                        text: widget.post['timestamp'],
-                        style:
-                            const TextStyle(color: Colors.black, fontSize: 18)),
-                  ],
-                ),
-              ),
-              RichText(
-                text: TextSpan(
-                  children: [
-                    const TextSpan(
-                        text: 'Prompt: ',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18)),
-                    TextSpan(
                         text: '${widget.post['prompt']}',
                         style:
-                            const TextStyle(color: Colors.black, fontSize: 18)),
-                  ],
-                ),
+                            const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w800)),
               ),
             ],
           ),
+          const SizedBox(height: 10),
           Image(image: NetworkImage(widget.post['imageURL'])),
           const SizedBox(
             height: 10,
@@ -89,6 +65,7 @@ class PostDetailsState extends State<PostDetails> {
                       Icons.thumb_up_sharp,
                       size: 24,
                     )),
+                    const TextSpan(text: " "),
                     TextSpan(
                         text: '${widget.post['likes']}',
                         style: const TextStyle(
@@ -109,6 +86,7 @@ class PostDetailsState extends State<PostDetails> {
                       Icons.thumb_down_sharp,
                       size: 24,
                     )),
+                    const TextSpan(text: " "),
                     TextSpan(
                         text: '${widget.post['dislikes']}',
                         style: const TextStyle(
@@ -129,6 +107,7 @@ class PostDetailsState extends State<PostDetails> {
                       Icons.remove_red_eye_outlined,
                       size: 24,
                     )),
+                    const TextSpan(text: " "),
                     TextSpan(
                         text: '${widget.post['views']}',
                         style: const TextStyle(
@@ -143,26 +122,33 @@ class PostDetailsState extends State<PostDetails> {
           const SizedBox(
             height: 10,
           ),
-          Expanded(
-              child: widget.post['comments'].length == 0
-                  ? const ListTile(
-                      title: Text(
-                      "No Comments",
-                      textAlign: TextAlign.center,
-                    ))
-                  : ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: widget.post['comments'].length,
-                      itemBuilder: (BuildContext c, int i) {
-                        return ListTile(
-                          title: Text(
-                              '${widget.post['comments'][i]['userName']}:'),
-                          subtitle:
-                              Text(' ${widget.post['comments'][i]['commentStr']}'),
-                        );
-                      })),
-        ],
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(width: 15),
+              Text("Comments", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800))
+            ]
+          ),
+          widget.post['comments'].length == 0
+            ? const ListTile(
+                title: Text(
+                "No Comments",
+                textAlign: TextAlign.center,
+              ))
+            : ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: widget.post['comments'].length,
+                itemBuilder: (BuildContext c, int i) {
+                  return ListTile(
+                    title: Text(
+                        '${widget.post['comments'][i]['userName']}:'),
+                    subtitle:
+                        Text(' ${widget.post['comments'][i]['commentStr']}'),
+                  );
+                }),
+          ],
+        ),
       ),
     );
   }

@@ -75,10 +75,10 @@ class FeedState extends State<Feed> {
                       backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
                         if (everyone == false) {
                           // Change the color when the button is pressed
-                          return const Color.fromARGB(255, 93, 36, 146);
+                          return Colors.purple.shade900;
                         }
                         // Return the default color
-                        return Color.fromARGB(255, 117, 96, 136);
+                        return Color.fromARGB(255, 109, 96, 136);
                       }),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
@@ -98,10 +98,10 @@ class FeedState extends State<Feed> {
                       backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
                         if (everyone == true) {
                           // Change the color when the button is pressed
-                          return const Color.fromARGB(255, 93, 36, 146);
+                          return Colors.purple.shade900;
                         }
                         // Return the default color
-                        return Color.fromARGB(255, 117, 96, 136);
+                        return Color.fromARGB(255, 109, 96, 136);
                       }),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(

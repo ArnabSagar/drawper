@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 10,
+                height: 5,
               ),
               const Image(
                   image: AssetImage('assets/images/DrawperFullLogo.png'),
@@ -199,7 +199,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if (user != null) {
       await userInfoNotifier.setUser(user);
-      showMessage.toast(message: "Successfully logged in");
+      // showMessage.toast(message: "Successfully logged in");
       String fileNameCheck = await _storage.getDownloadURL(fileName);
       if (context.mounted && fileNameCheck == "") {
         Navigator.pop(context);

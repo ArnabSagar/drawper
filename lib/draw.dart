@@ -64,7 +64,7 @@ class DrawState extends State<Draw> {
         String timestamp = _getDateString();
         await databaseService.createPostData(displayname ?? "displaynamenotfound", uid, imageURL, timestamp, "Cats");
         // add the post to the user's database somehow and 
-        logger.toast(message: "File successfully created!\nLogging in");
+        // logger.toast(message: "File successfully created!\nLogging in");
 
         // Hide loading widget
         // ignore: use_build_context_synchronously
