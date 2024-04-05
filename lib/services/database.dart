@@ -56,6 +56,31 @@ class DatabaseService {
     });
   }
 
+  Future<List<Map<String,dynamic>>> getAllUsersData() async {
+    try {
+      // Query to get all documents from the collection
+      QuerySnapshot querySnapshot = await usersCollection.get();
+
+      List<Map<String, dynamic>> resultList = [];
+
+      for (QueryDocumentSnapshot docSnapshot in querySnapshot.docs) {
+        // Get the document ID
+        String docId = docSnapshot.id;
+        Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+        data['posts'] = await getUserPosts(docId);
+        data['id'] = docId;
+        resultList.add(data);
+      }
+
+      // Return the list of documents with document IDs
+      return resultList;
+    } catch (e) {
+      // Handle any errors
+      print('Error occurred while getting all users data: $e');
+      return [];
+    }
+  }
+
   Future<Map<String, dynamic>?> getUserData(String userId) async {
     try {
       // Get the document snapshot for the user with the given userId
@@ -116,11 +141,6 @@ class DatabaseService {
 
     // Return the list of documents
     return resultList;
-  }
-
-  Future<List<Map<String,dynamic>>> getFollowingPostData() async {
-    // TODO
-    return getAllPostData();
   }
 
   Future<List<Map<String,dynamic>>> getUserPosts( String uid) async {

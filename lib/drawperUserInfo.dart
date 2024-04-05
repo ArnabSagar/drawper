@@ -7,8 +7,8 @@ class DrawperUserInfo {
   String bio;
   String profilePicUrl; 
   int points; 
-  List<dynamic> followers;
-  List<dynamic> following;
+  List<String> followers; 
+  List<String> following; 
   List<Map<String, dynamic>> posts;
 
   DrawperUserInfo({
@@ -19,10 +19,13 @@ class DrawperUserInfo {
     required this.bio,
     required this.profilePicUrl,
     required this.points,
-    required this.followers, 
-    required this.following, 
+    required List<dynamic> followers, 
+    required List<dynamic> following, 
     required this.posts,
-  });
+  }) : 
+      // Convert followers and following lists to list of strings
+      followers = followers.map((follower) => follower.toString()).toList(),
+      following = following.map((follow) => follow.toString()).toList();
 
   factory DrawperUserInfo.fromMap(Map<String,dynamic> userInfo, String userId){
     return DrawperUserInfo(

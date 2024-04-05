@@ -1,3 +1,6 @@
+import 'package:drawper/drawperUserInfo.dart';
+import 'package:drawper/services/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
@@ -14,21 +17,20 @@ class Search extends StatefulWidget {
 }
 
 class SearchState extends State<Search> {
-  List<dynamic> _searchData = [];
+  List<Map<String,dynamic>> _searchData = [];
+  List<Map<String,dynamic>> _allProfiles = [];
 
   @override
   void initState() {
     super.initState();
-    _loadJsonData();
+    _loadProfiles();
   }
 
-  // Loads all of the JSON data for the profile page
-  Future<void> _loadJsonData() async {
-    String jsonString =
-        await rootBundle.loadString('assets/test_files/search_data.json');
-
+  // Loads all of the user profiles
+  Future<void> _loadProfiles() async {
+    List<Map<String,dynamic>> profiles = await DatabaseService().getAllUsersData();
     setState(() {
-      _searchData = json.decode(jsonString)['users'];
+      _allProfiles = profiles;
     });
   }
 
@@ -40,6 +42,12 @@ class SearchState extends State<Search> {
     // Clean up the controller when the widget is disposed.
     _searchController.dispose();
     super.dispose();
+  }
+
+  void updateSearchData() {
+    setState( () {
+      _searchData = _allProfiles.where((user) => user.containsKey('username') && user['username'].toString().startsWith(_searchTerm)).toList();
+    });
   }
 
   @override
@@ -54,6 +62,7 @@ class SearchState extends State<Search> {
               setState(() {
                 _searchTerm = value;
               });
+              updateSearchData();
             },
             decoration: InputDecoration(
               constraints: const BoxConstraints(maxHeight: 40),
@@ -80,9 +89,8 @@ class SearchState extends State<Search> {
             ),
           ],
         ),
-        body: !_searchTerm.contains("m") || _searchData.isEmpty
-            ? const Center(child: CircularProgressIndicator())
-            : SizedBox(
+        body: 
+            SizedBox(
                 height: 400,
                 child: ListView.builder(
                     itemCount: _searchData.length,
@@ -113,10 +121,26 @@ class SearchState extends State<Search> {
                               )),
                         ),
                         onTap: () {
+                          DrawperUserInfo uifo = DrawperUserInfo.fromMap(userInfo, userInfo["id"].toString());
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const DetailedUser()));
+                                  builder: (context) => DetailedUser(userInfo: uifo) 
+                                  ) 
+                            ).then((updatess) {
+                              if(updatess['youFollowedThem']){
+                                User? you = FirebaseAuth.instance.currentUser;
+                                setState((){
+                                  userInfo['followers'].add(you!.uid);
+                                });
+                              }
+                              if(updatess['youUnfollowedThem']){
+                                User? you = FirebaseAuth.instance.currentUser;
+                                setState((){
+                                  userInfo['followers'].remove(you!.uid);
+                                });
+                              }
+                            });
                         },
                       );
                     })));
