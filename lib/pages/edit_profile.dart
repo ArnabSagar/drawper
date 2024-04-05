@@ -41,7 +41,7 @@ class EditProfileState extends State<EditProfile> {
     final _formKey = GlobalKey<FormState>();
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
@@ -49,29 +49,30 @@ class EditProfileState extends State<EditProfile> {
           textAlign: TextAlign.center,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              TextFormField(
-                controller: _nameController,
-                maxLength: 40, // Limit to 40 characters
-                decoration: const InputDecoration(
-                  labelText: 'Name',
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                TextFormField(
+                  controller: _nameController,
+                  maxLength: 40, // Limit to 40 characters
+                  decoration: const InputDecoration(
+                    labelText: 'Name',
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: _bioController,
-                maxLines: null, // Allow multiple lines
-                maxLength: 90, // Limit to 90 characters
-                decoration: const InputDecoration(
-                  labelText: 'Bio',
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _bioController,
+                  maxLines: null, // Allow multiple lines
+                  maxLength: 90, // Limit to 90 characters
+                  decoration: const InputDecoration(
+                    labelText: 'Bio',
+                  ),
                 ),
-              ),
               const SizedBox(height: 20),
               TextFormField(
                 controller: _profilePicController,
@@ -94,12 +95,13 @@ class EditProfileState extends State<EditProfile> {
                       Navigator.pop(context);
                     },
                     child: const Text('Save'),
-                  ),
+                  )
                 ]
-              ),
-            ],
+              )
+              ],
+            ),
           ),
-        ),
+        )
       )
     );
   }
