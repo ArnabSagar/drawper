@@ -36,13 +36,14 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         automaticallyImplyLeading: false,
       ),
       body: Consumer<DrawperUserInfoNotifier> (
         builder: (context, userInfoNotifier, _) { 
-        return Padding(
+        return SingleChildScrollView(
+          child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -128,10 +129,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                             color: Colors.purple.shade900,
                             fontWeight: FontWeight.bold),
                       ))
-                ],
-              )
-            ],
-          ),
+                  ],
+                )
+              ],
+            ),
+          )
         );
       }),
     );

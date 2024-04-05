@@ -50,7 +50,7 @@ class FeedState extends State<Feed> {
         appBar: AppBar(
           centerTitle: true,
           title: const Text(
-            "Feed",
+            "Today's Drawps!",
             textAlign: TextAlign.center,
           ),
         ),

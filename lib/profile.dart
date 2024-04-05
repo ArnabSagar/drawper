@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/edit_profile.dart';
+import 'package:drawper/settings.dart' as settings;
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -282,7 +283,14 @@ class ProfileState extends State<Profile> {
                                 foregroundColor: MaterialStatePropertyAll(
                                     Color.fromARGB(255, 66, 66, 66)),
                               ),
-                              onPressed: () => {},
+                              onPressed: () => {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const settings.Settings(),
+                                  ),
+                                )
+                              },
                               icon: const Icon(Icons.settings,
                                   size: 20, color: Colors.black45)),
                         ]),
