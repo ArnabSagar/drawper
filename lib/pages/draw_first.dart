@@ -1,11 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../draw.dart';
 
 class DrawFirst extends StatefulWidget {
-  final User user;
-  const DrawFirst({Key? key, required this.user}) : super(key: key);
+  const DrawFirst({Key? key}) : super(key: key);
 
   @override
   DrawFirstState createState() => DrawFirstState();
@@ -55,7 +53,7 @@ class DrawFirstState extends State<DrawFirst> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Draw(user: widget.user)));
+                      builder: (context) => const Draw()));
             },
           ),
           const SizedBox(height: 30), // spacer for aesthetics

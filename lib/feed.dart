@@ -1,14 +1,9 @@
 import 'package:drawper/pages/post_details.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:drawper/services/database.dart';
 
 class Feed extends StatefulWidget {
-  final Uint8List? newDrawing;
-  final User user;
-
-  const Feed({Key? key, this.newDrawing, required this.user}) : super(key: key);
+  const Feed({Key? key}) : super(key: key);
 
   @override
   FeedState createState() => FeedState();
@@ -28,7 +23,7 @@ class FeedState extends State<Feed> {
   }
 
   Future<void> loadFromDb() async {
-    DatabaseService dbServ = DatabaseService(uid: widget.user.uid);
+    DatabaseService dbServ = DatabaseService();
     List<Map<String, dynamic>> followingPosts = await dbServ.getFollowingPostData();
     List<Map<String, dynamic>> allPosts = await dbServ.getAllPostData();
     setState(() {
@@ -75,8 +70,7 @@ class FeedState extends State<Feed> {
                   onPressed: () {
                     setState(() {
                       everyone = true; 
-                      loadFromDb();
-                      print(_all_posts);
+                      // print(_all_posts);
                     });
                   },
                   style: ElevatedButton.styleFrom(

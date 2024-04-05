@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -9,9 +8,8 @@ import '../menu_drawer.dart';
 
 class HomePage extends StatefulWidget {
   final Uint8List? newDrawing;
-  final User user;
 
-  const HomePage({Key? key, this.newDrawing, required this.user})
+  const HomePage({Key? key, this.newDrawing})
       : super(key: key);
 
   @override
@@ -32,16 +30,13 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     //This is a screens list which you want to navigate through BottomNavigationBar
     final List<Widget> children = [
-      Feed(
-        newDrawing: widget.newDrawing,
-        user: widget.user,
-      ),
+      const Feed(),
       const Search(),
-      Profile(user: widget.user)
+      const Profile()
     ];
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      drawer: MenuDrawer(user: widget.user),
+      drawer: const MenuDrawer(),
       body: children[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 25,

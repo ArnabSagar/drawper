@@ -1,3 +1,4 @@
+import 'package:drawper/drawperUserInfoNotifier.dart';
 import 'package:drawper/pages/draw_first.dart';
 import 'package:drawper/pages/login_page.dart';
 import 'package:drawper/services/auth.dart';
@@ -5,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:drawper/utils/toastMessage.dart';
 import 'package:drawper/utils/form.dart';
+import 'package:provider/provider.dart';
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({super.key});
@@ -38,8 +40,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
       ),
-      body: Center(
-        child: Padding(
+      body: Consumer<DrawperUserInfoNotifier> (
+        builder: (context, userInfoNotifier, _) { 
+        return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -79,7 +82,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               ),
               GestureDetector(
                 onTap: () {
-                  _createAccount(context);
+                  _createAccount(context, userInfoNotifier);
                 },
                 child: Container(
                   width: double.infinity,
@@ -129,12 +132,13 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               )
             ],
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
-  void _createAccount(context) async {
+  void _createAccount(context, DrawperUserInfoNotifier userInfoNotifier) async {
+
     setState(() {
       isSigningUp = true;
     });
@@ -150,15 +154,14 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
       isSigningUp = false;
     });
     if (user != null) {
+      await userInfoNotifier.setUser(user);
       showMessage.toast(message: "Account successfully created!\nLogging in");
       if (context.mounted) {
         Navigator.pop(context);
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-                builder: (context) => DrawFirst(
-                      user: user,
-                    )), // TODO ADD LOGIC FOR CHECKING IF THEY HAVE DONE THE DRAWP OF THE DAY OR NOT YET
+                builder: (context) => const DrawFirst()), // Since new account must not have done daily drawp yet so dont need to check
             (route) => false);
       }
     } else {

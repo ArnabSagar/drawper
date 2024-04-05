@@ -12,8 +12,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Draw extends StatefulWidget {
-  final User user;
-  const Draw({Key? key, required this.user}) : super(key: key);
+  const Draw({Key? key}) : super(key: key);
 
   @override
   DrawState createState() => DrawState();
@@ -21,10 +20,11 @@ class Draw extends StatefulWidget {
 
 class DrawState extends State<Draw> {
   final ScreenshotController screenshotController = ScreenshotController();
+  
   final StorageService _storage = StorageService();
-  late DatabaseService _databaseService;
+  // late
   final logger = ToastMessage();
-
+  
   List<Line> lines = [];
   List<Line> redoStack = []; // Stack to store history for undo/redo
 
@@ -37,10 +37,10 @@ class DrawState extends State<Draw> {
   @override
   void initState() {
     super.initState();
-    _databaseService = DatabaseService(uid: widget.user.uid);
+    //  DatabaseService databaseService = DatabaseService(uid: widget.user.uid);
   }
 
-  Future _uploadDrawper(Uint8List file, String filename) async {
+  Future _uploadDrawper(Uint8List file, String filename, String uid, String? displayname) async {
     try {
       if (context.mounted) {
         // Show loading widget
@@ -54,10 +54,14 @@ class DrawState extends State<Draw> {
           },
         );
 
+        DatabaseService databaseService = DatabaseService();
+        
+
         await _storage.uploadFile(file, filename);
         String imageURL = await _storage.getDownloadURL(filename);
         String timestamp = _getDateString();
-        await _databaseService.createPostData(widget.user.displayName ?? "displaynamenotfound", widget.user.uid, imageURL, timestamp, "Cats");
+        await databaseService.createPostData(displayname ?? "displaynamenotfound", uid, imageURL, timestamp, "Cats");
+        // add the post to the user's database somehow and 
         logger.toast(message: "File successfully created!\nLogging in");
 
         // Hide loading widget
@@ -71,12 +75,13 @@ class DrawState extends State<Draw> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HomePage(newDrawing: file, user: widget.user),
+            builder: (context) => HomePage(newDrawing: file),
           ),
         );
       }
     } catch (e) {
       logger.toast(message: "$e");
+      // ignore: avoid_print
       print(e);
     }
   }
@@ -249,13 +254,19 @@ class DrawState extends State<Draw> {
 
                 Uint8List img = imageUint8List.buffer.asUint8List();
 
-                // Format of saving the current day's post
-                // <uid>_<date>
-                String fileName =
-                    "${widget.user.uid.toString()}_${_getDateString()}";
+                User? user = FirebaseAuth.instance.currentUser;
+                if (user != null){
+                  // Format of saving the current day's post
+                  // <uid>_<date>
+                  String fileName = "${user.uid.toString()}_${_getDateString()}";
 
-                //_uploadDrawper(context, img, fileName);
-                _uploadDrawper(img, fileName);
+                  //_uploadDrawper(context, img, fileName);
+                  _uploadDrawper(img, fileName, user.uid, user.displayName);
+                } else {
+                  // ignore: avoid_print
+                  print("ERROR: user is null, could not upload drawp (no one logged in?)");
+                }
+                
               }
             },
             child: const Text('Drawp It!'),

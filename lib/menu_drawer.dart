@@ -9,8 +9,7 @@ import 'main.dart';
 import 'pages/home_page.dart';
 
 class MenuDrawer extends StatelessWidget {
-  final User user;
-  const MenuDrawer({Key? key, required this.user}) : super(key: key);
+  const MenuDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +41,7 @@ class MenuDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Feed(user: user)));
+                  MaterialPageRoute(builder: (context) => const Feed()));
             },
           ),
           ListTile(
@@ -53,7 +52,7 @@ class MenuDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Profile(user: user)));
+                  MaterialPageRoute(builder: (context) => const Profile()));
             },
           ),
           ListTile(
@@ -66,9 +65,9 @@ class MenuDrawer extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => HomePage(
-                            user: user,
-                          )));
+                      builder: (context) => const HomePage(),
+                  )
+              );
             },
           ),
           ListTile(
@@ -81,9 +80,9 @@ class MenuDrawer extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Settings(
-                            user: user,
-                          )));
+                      builder: (context) => const Settings(),
+                  )
+              );
             },
           ),
           ListTile(
@@ -96,9 +95,9 @@ class MenuDrawer extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DrawFirst(
-                            user: user,
-                          )));
+                      builder: (context) => DrawFirst()
+                  )
+              );
             },
           ),
           ListTile(

@@ -1,3 +1,4 @@
+import 'package:drawper/drawperUserInfoNotifier.dart';
 import 'package:drawper/pages/create_account_page.dart';
 import 'package:drawper/pages/draw_first.dart';
 import 'package:drawper/pages/home_page.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:drawper/utils/form.dart';
 import 'package:drawper/utils/toastMessage.dart';
 import 'package:drawper/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -37,7 +39,8 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false
       ),
-      body: Center(
+      body: Consumer<DrawperUserInfoNotifier> (
+        builder: (context, drawperUserInfoNotifier, _) { return Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
@@ -70,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               GestureDetector(
                 onTap: () {
-                  _signIn(context);
+                  _signIn(context, drawperUserInfoNotifier);
                 },
                 child: Container(
                   width: double.infinity,
@@ -163,8 +166,8 @@ class _LoginPageState extends State<LoginPage> {
             ],
           ),
         ),
-      ),
-    );
+      );
+    }));
   }
 
   String _getDateString() {
@@ -175,7 +178,8 @@ class _LoginPageState extends State<LoginPage> {
     return date;
   }
 
-  void _signIn(BuildContext context) async {
+  void _signIn(BuildContext context, DrawperUserInfoNotifier userInfoNotifier) async {
+    
     setState(() {
       _isSigning = true;
     });
@@ -192,6 +196,7 @@ class _LoginPageState extends State<LoginPage> {
     String fileName = "${user?.uid.toString()}_${_getDateString()}";
 
     if (user != null) {
+      await userInfoNotifier.setUser(user);
       showMessage.toast(message: "Successfully logged in");
       String fileNameCheck = await _storage.getDownloadURL(fileName);
       if (context.mounted && fileNameCheck == "") {
@@ -199,14 +204,12 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-                builder: (context) => DrawFirst(
-                      user: user,
-                    )),
+                builder: (context) => const DrawFirst()),
             (route) => false);
       } else if (context.mounted && fileNameCheck != "") {
         Navigator.pop(context);
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => HomePage(user: user)));
+            MaterialPageRoute(builder: (context) => const HomePage()));
       }
     } else {
       showMessage.toast(message: "Login failed!");

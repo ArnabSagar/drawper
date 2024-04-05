@@ -1,5 +1,7 @@
+import 'package:drawper/drawperUserInfoNotifier.dart';
 import 'package:drawper/firebase_options.dart';
 import 'package:drawper/pages/login_page.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +13,12 @@ void main() async {
 
   HttpOverrides.global =
       MyHttpOverrides(); // TODO : Note this is a hacky thing because images from url were having certificate error
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => DrawperUserInfoNotifier(),
+      child: const MyApp()
+    ),
+  );
   HttpOverrides.global = MyHttpOverrides();
 }
 

@@ -3,10 +3,9 @@ import 'package:drawper/utils/toastMessage.dart';
 import 'dart:math';
 
 class DatabaseService {
-  final String uid;
   final logger = ToastMessage();
 
-  DatabaseService({required this.uid});
+  DatabaseService();
 
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
@@ -14,7 +13,7 @@ class DatabaseService {
   final CollectionReference drawpsCollection =
       FirebaseFirestore.instance.collection('drawps');
 
-  Future createUserData(String email, String username) async {
+  Future createUserData(String email, String username, String uid) async {
     try {
       return await usersCollection.doc(uid).set({
         // Key value pairs of the user properties when creating a new account
@@ -57,6 +56,29 @@ class DatabaseService {
     });
   }
 
+  Future<Map<String, dynamic>?> getUserData(String userId) async {
+    try {
+      // Get the document snapshot for the user with the given userId
+      DocumentSnapshot userSnapshot = await usersCollection.doc(userId).get();
+
+      // Check if the document exists
+      if (userSnapshot.exists) {
+        // Convert the document snapshot data to a Map
+        Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
+        userData["posts"] = await getUserPosts(userId);
+        return userData;
+      } else {
+        // Document doesn't exist, return null
+        return null;
+      }
+    } catch (e) {
+      // Handle any errors
+      logger.toast(message: 'Error occurred while getting user data: $e');
+      return null;
+    }
+  }
+
+
   Future createPostData(String authorUName, String authorUID, String imageURL, String timestamp, String prompt) async { 
 
     Random random = Random();
@@ -64,7 +86,7 @@ class DatabaseService {
     int dislikes = random.nextInt(100);
     int views = random.nextInt(100);
 
-    return await drawpsCollection.doc(uid).set({
+    return await drawpsCollection.doc(authorUID).set({
       // Key value pairs of the user properties when creating a new account
       "likes": likes, //randomize 
       "dislikes": dislikes,
@@ -99,5 +121,23 @@ class DatabaseService {
   Future<List<Map<String,dynamic>>> getFollowingPostData() async {
     // TODO
     return getAllPostData();
+  }
+
+  Future<List<Map<String,dynamic>>> getUserPosts( String uid) async {
+    // Query to get documents from the collection where authorUID matches the given UID
+    QuerySnapshot querySnapshot = await drawpsCollection.where('authorUID', isEqualTo: uid).get();
+
+    // List to hold the results
+    List<Map<String, dynamic>> resultList = [];
+
+    // Iterate through the documents
+    for (QueryDocumentSnapshot docSnapshot in querySnapshot.docs) {
+      // Convert each document to a Map
+      Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+      resultList.add(data);
+    }
+
+    // Return the list of documents
+    return resultList;
   }
 }
