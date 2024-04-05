@@ -35,13 +35,14 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         automaticallyImplyLeading: false
       ),
       body: Consumer<DrawperUserInfoNotifier> (
         builder: (context, drawperUserInfoNotifier, _) { return Center(
-        child: Padding(
+        child: SingleChildScrollView(
+          child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -88,82 +89,83 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.white,
                           )
                         : const Text(
-                            "Login",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                              "Login",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
                   ),
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
-              // GestureDetector(
-              //   onTap: () {
-              //     _signInWithGoogle();
-              //   },
-              //   child: Container(
-              //     width: double.infinity,
-              //     height: 45,
-              //     decoration: BoxDecoration(
-              //       color: Colors.red,
-              //       borderRadius: BorderRadius.circular(10),
-              //     ),
-              //     child: Center(
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.center,
-              //         children: [
-              //           Icon(
-              //             FontAwesomeIcons.google,
-              //             color: Colors.white,
-              //           ),
-              //           SizedBox(
-              //             width: 5,
-              //           ),
-              //           Text(
-              //             "Sign in with Google",
-              //             style: TextStyle(
-              //               color: Colors.white,
-              //               fontWeight: FontWeight.bold,
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Don't have an account?"),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CreateAccountPage()),
-                        (route) => false,
-                      );
-                    },
-                    child: Text(
-                      "Sign Up",
-                      style: TextStyle(
-                        color: Colors.purple.shade900,
-                        fontWeight: FontWeight.bold,
+                // GestureDetector(
+                //   onTap: () {
+                //     _signInWithGoogle();
+                //   },
+                //   child: Container(
+                //     width: double.infinity,
+                //     height: 45,
+                //     decoration: BoxDecoration(
+                //       color: Colors.red,
+                //       borderRadius: BorderRadius.circular(10),
+                //     ),
+                //     child: Center(
+                //       child: Row(
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         children: [
+                //           Icon(
+                //             FontAwesomeIcons.google,
+                //             color: Colors.white,
+                //           ),
+                //           SizedBox(
+                //             width: 5,
+                //           ),
+                //           Text(
+                //             "Sign in with Google",
+                //             style: TextStyle(
+                //               color: Colors.white,
+                //               fontWeight: FontWeight.bold,
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Don't have an account?"),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CreateAccountPage()),
+                          (route) => false,
+                        );
+                      },
+                      child: Text(
+                        "Sign Up",
+                        style: TextStyle(
+                          color: Colors.purple.shade900,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       );

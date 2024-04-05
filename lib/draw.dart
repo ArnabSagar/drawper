@@ -5,6 +5,8 @@ import 'package:drawper/services/storage.dart';
 import 'package:drawper/utils/toastMessage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'pages/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -496,7 +498,7 @@ class StrokeWidthShapePickerDialogState
                       children: [
                         const Text(
                           'Stroke Width',
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: 14),
                         ),
                         Text(
                           "${_strokeWidth.toStringAsFixed(2)}  ",
@@ -539,7 +541,7 @@ class StrokeWidthShapePickerDialogState
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text('Stroke Shape',
-                            style: TextStyle(fontSize: 20)),
+                            style: TextStyle(fontSize: 14)),
                         Text(
                             _strokeShape == StrokeCap.round
                                 ? "Round"
