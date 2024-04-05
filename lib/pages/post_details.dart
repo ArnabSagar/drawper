@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 // Generates the desired display of the given date, which must be in YYYY-MM-DD format
 // String getDateDisplay(String date) {

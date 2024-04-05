@@ -14,8 +14,8 @@ class AuthService {
 
       // Create a new user document for the new uid
       // await DatabaseService(uid: credential.user!.uid).updateUserData();
-      await DatabaseService(uid: credential.user!.uid)
-          .createUserData(email, username);
+      DatabaseService dbServ = DatabaseService();
+      await dbServ.createUserData(email, username, credential.user!.uid);
 
       await credential.user!.updateDisplayName(username);
       await credential.user!.reload();

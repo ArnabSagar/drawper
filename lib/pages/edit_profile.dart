@@ -1,15 +1,9 @@
-import 'package:drawper/utils/form.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:drawper/drawperUserInfoNotifier.dart';
 import 'package:flutter/material.dart';
-
-import 'package:drawper/profile.dart';
-import 'package:drawper/services/database.dart';
+import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
-  final String uid;
-  final dynamic userInfo;
-  const EditProfile({Key? key, required this.uid, required this.userInfo}) : super(key: key);
+  const EditProfile({Key? key}) : super(key: key);
 
   @override
   EditProfileState createState() => EditProfileState();
@@ -27,54 +21,24 @@ class EditProfileState extends State<EditProfile> {
   void dispose() {
     _nameController.dispose();
     _bioController.dispose();
+    _profilePicController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
-    dynamic userData = widget.userInfo;
     super.initState();
-    _nameController.text = userData['name'].length == 0 ? '' : userData['name'];
-    _bioController.text = userData['bio'].length == 0 ? '' : userData['bio'];
-    _profilePicController.text = userData['profilePicUrl'].length == 0 ? '' : userData['profilePicUrl'];
-    // Set current names for later reference
-    currName = _nameController.text;
-    currBio = _bioController.text;
-    currProfilePicUrl = _profilePicController.text;
-  }
-
-  void _saveProfile() {
-    DatabaseService ds = DatabaseService(uid: widget.uid);
-    bool changesMade = false;
-    // Perform saving logic for fields that are changed ONLY
-    if (_nameController.text != currName) {
-      print('Name has changed: ${_nameController.text}');
-      widget.userInfo['name'] = _nameController.text;
-      changesMade = true;
-    }
-    if (_bioController.text != currBio) {
-      print('Bio has changed: ${_bioController.text}');
-      widget.userInfo['bio'] = _bioController.text;
-      changesMade = true;
-    }
-    if (_profilePicController.text != currProfilePicUrl) {
-      print('Profile picture has changed: ${_profilePicController.text}');
-      widget.userInfo['profilePicUrl'] = _profilePicController.text;
-      changesMade = true;
-    }
-
-    if (changesMade) {
-      ds.updateUserData(widget.uid, widget.userInfo);
-    }
-    
   }
 
   @override
   Widget build(BuildContext context) {
-    dynamic userData = widget.userInfo;
+    DrawperUserInfoNotifier drawperUserInfoNotifier = Provider.of<DrawperUserInfoNotifier>(context);
+
+    _nameController.text = drawperUserInfoNotifier.userInfo.name;
+    _bioController.text = drawperUserInfoNotifier.userInfo.bio;
+    _profilePicController.text = drawperUserInfoNotifier.userInfo.profilePicUrl;
+
     final _formKey = GlobalKey<FormState>();
-    String _name; // Initialize name variable
-    String _bio; // Initialize name variable
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -122,15 +86,14 @@ class EditProfileState extends State<EditProfile> {
                   ElevatedButton(
                     onPressed: () {
                       // Save form data
-                      _saveProfile();
+                      drawperUserInfoNotifier.updateName(_nameController.text);
+                      drawperUserInfoNotifier.updateBio(_bioController.text);
+                      drawperUserInfoNotifier.updateProfilePicUrl(_profilePicController.text);
+                      drawperUserInfoNotifier.updateUserInfoInDatabase();
                       // Pass updated data back to the previous screen
-                      Navigator.pop(context, {
-                        'name': _nameController.text,
-                        'bio': _bioController.text,
-                        'profilePicUrl': _profilePicController.text,
-                      });
+                      Navigator.pop(context);
                     },
-                    child: Text('Save'),
+                    child: const Text('Save'),
                   ),
                 ]
               ),
