@@ -345,7 +345,7 @@ class ProfileState extends State<Profile> {
                                                         // a preview image of the post
                                                         color: Colors.grey,
                                                         image: DecorationImage(
-                                                          image: NetworkImage(post['imageURL']), //TODO: CHANGE TO "post['image']" when we have images loaded via json
+                                                          image: NetworkImage(post['imageURL']),
                                                           fit: BoxFit.fill,
                                                         )),
                                                   ),

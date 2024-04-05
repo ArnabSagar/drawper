@@ -62,4 +62,22 @@ class DrawperUserInfoNotifier extends ChangeNotifier {
     userInfo.profilePicUrl = newURL;
     notifyListeners();
   }
+
+  void addFollowing(String username){
+    if (!_canUpdate){
+      return; 
+    }
+
+    userInfo.following.add(username);
+    notifyListeners();
+  }
+
+  void removeFollowing(String username){
+    if (!_canUpdate){
+      return; 
+    }
+
+    userInfo.following.remove(username);
+    notifyListeners();
+  }
 }

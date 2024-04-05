@@ -1,64 +1,92 @@
 import 'dart:convert';
+import 'package:drawper/drawperUserInfo.dart';
+import 'package:drawper/drawperUserInfoNotifier.dart';
+import 'package:drawper/pages/post_details.dart';
+import 'package:drawper/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 // import 'package:intl/intl.dart';
 
 import '../profile.dart';
 
+// ignore: must_be_immutable
 class DetailedUser extends StatefulWidget {
-  const DetailedUser({Key? key}) : super(key: key);
+  DrawperUserInfo userInfo;
+  DetailedUser({Key? key, required this.userInfo}) : super(key: key);
 
   @override
   _DetailedUserState createState() => _DetailedUserState();
 }
 
 class _DetailedUserState extends State<DetailedUser> {
-  dynamic _userData = {};
+  int followingRelationship = 0; // 0 = not following , 1 = following, 2 = it's u so u cnat follow urself
+  int OGFR = 0;
+  List<String> followButtonTextOptions = ["Follow", "Following", ""];
+  String followButtonText = "Follow";
+
 
   @override
   void initState() {
     super.initState();
-    _loadJsonData();
+    // set inital following relationship
+    DrawperUserInfoNotifier duin = Provider.of<DrawperUserInfoNotifier>(context, listen: false);
+    if(duin.userInfo.userId == widget.userInfo.userId){
+      updateFollowingRelationship(2);
+      OGFR = 2;
+    } else if (duin.userInfo.following.contains(widget.userInfo.userId)) {
+      updateFollowingRelationship(1);
+      OGFR = 1;
+    } else {
+      updateFollowingRelationship(0);
+      OGFR = 0;
+    }
   }
 
-  // Loads all of the JSON data for the profile page
-  Future<void> _loadJsonData() async {
-    String jsonString =
-        await rootBundle.loadString('assets/test_files/profile_data2.json');
-    Map<String, dynamic> jsonData = json.decode(jsonString);
-
-    String pointsStr = getNumberDisplay(jsonData['points']);
-    String followersStr = getNumberDisplay(jsonData['followers']);
-    String drawpsStr = getNumberDisplay(jsonData['drawps']);
-
+  void updateFollowingRelationship(int f) {
     setState(() {
-      _userData = {
-        ...jsonData,
-        'pointsDisplay': pointsStr,
-        'followersDisplay': followersStr,
-        'drawpsDisplay': drawpsStr,
-      };
+      followingRelationship = f;
+      followButtonText = followButtonTextOptions[f];
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              bool yft = false; 
+              bool yuft = false;
+              if(OGFR == 1 && followingRelationship == 0){
+                yuft = true;
+              } else if (OGFR == 0 && followingRelationship == 1){
+                yft = true;
+              }
+              Navigator.pop(context, {"youFollowedThem": yft, "youUnfollowedThem": yuft}); // Navigate back to the previous page
+            },
+          ),
           title: Text(
-            _userData.isEmpty ? "" : "@${_userData['username']}",
+            "@${widget.userInfo.username}",
             style: const TextStyle(color: Colors.white),
             textAlign: TextAlign.center,
           ),
           backgroundColor: Colors.purple.shade900,
         ),
         resizeToAvoidBottomInset: false,
-        body: _userData.isEmpty // TODO ADD FUTURE BUILDER HERE INSTEAD?
-            ? const Center(
-                child:
-                    CircularProgressIndicator()) // Show loading indicator if data is not loaded
-            : Column(
+        body: 
+        // _userData.isEmpty // TODO ADD FUTURE BUILDER HERE INSTEAD?
+        //     ? const Center(
+        //         child:
+        //             CircularProgressIndicator()) // Show loading indicator if data is not loaded
+        //     : 
+            Consumer<DrawperUserInfoNotifier> (builder: (context, duin, child) {
+              
+            
+            return Column(
                 // whole page
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +119,7 @@ class _DetailedUserState extends State<DetailedUser> {
                                               BorderSide.strokeAlignOutside),
                                       image: DecorationImage(
                                           image: NetworkImage(
-                                              _userData['profilePicUrl']))))),
+                                              widget.userInfo.profilePicUrl))))),
                           SizedBox(
                               // user info section beside profile picture
                               height: 100,
@@ -102,7 +130,7 @@ class _DetailedUserState extends State<DetailedUser> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    _userData['bio'],
+                                    widget.userInfo.bio,
                                     style: const TextStyle(fontSize: 12),
                                     textAlign: TextAlign.center,
                                   ),
@@ -120,7 +148,7 @@ class _DetailedUserState extends State<DetailedUser> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                                "${_userData['pointsDisplay']}",
+                                                "${widget.userInfo.points}",
                                                 style: const TextStyle(
                                                     fontSize: 14)),
                                             const Text("Points",
@@ -137,7 +165,7 @@ class _DetailedUserState extends State<DetailedUser> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                                "${_userData['drawpsDisplay']}",
+                                                "${widget.userInfo.posts.length}",
                                                 style: const TextStyle(
                                                     fontSize: 14)),
                                             const Text("Drawps",
@@ -154,7 +182,7 @@ class _DetailedUserState extends State<DetailedUser> {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                                "${_userData['followersDisplay']}",
+                                                "${widget.userInfo.followers.length}",
                                                 style: const TextStyle(
                                                     fontSize: 14)),
                                             const Text("Followers",
@@ -175,7 +203,7 @@ class _DetailedUserState extends State<DetailedUser> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const SizedBox(width: 5),
-                          Text(_userData['name'],
+                          Text(widget.userInfo.name,
                               style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold)),
                           const SizedBox(width: 150),
@@ -186,6 +214,7 @@ class _DetailedUserState extends State<DetailedUser> {
                         // profile buttons like follow, block, report, etc
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          (followingRelationship != 2) ?
                           TextButton(
                               style: const ButtonStyle(
                                 backgroundColor: MaterialStatePropertyAll(
@@ -193,8 +222,29 @@ class _DetailedUserState extends State<DetailedUser> {
                                 foregroundColor: MaterialStatePropertyAll(
                                     Color.fromARGB(255, 66, 66, 66)),
                               ),
-                              onPressed: () => {},
-                              child: const Text("Follow")),
+                              onPressed: () async {
+                                if (followingRelationship == 0){
+                                  // add this person to your following list
+                                  duin.addFollowing(widget.userInfo.userId);
+                                  await duin.updateUserInfoInDatabase();
+                                  // adds you to their followers list 
+                                  setState(() {
+                                    widget.userInfo.followers.add(duin.userInfo.userId);
+                                  });
+                                  await DatabaseService().updateUserData(widget.userInfo.userId, widget.userInfo.toMap());
+                                  updateFollowingRelationship(1);
+                                } else if (followingRelationship == 1) {
+                                  duin.removeFollowing(widget.userInfo.userId);
+                                  await duin.updateUserInfoInDatabase();
+                                  setState(() {
+                                    widget.userInfo.followers.remove(duin.userInfo.userId);
+                                  });
+                                  await DatabaseService().updateUserData(widget.userInfo.userId, widget.userInfo.toMap());
+                                  updateFollowingRelationship(0);
+                                }
+                                
+                              },
+                              child: Text(followButtonText)) : const SizedBox(width:10),
                           const SizedBox(width: 10), // spacer for aesthetics
                           TextButton(
                               style: const ButtonStyle(
@@ -230,9 +280,9 @@ class _DetailedUserState extends State<DetailedUser> {
                                 child: Scrollbar(
                                     thickness: 5,
                                     child: ListView.builder(
-                                        itemCount: _userData['posts'].length,
+                                        itemCount: widget.userInfo.posts.length,
                                         itemBuilder: (context, index) {
-                                          var post = _userData['posts'][index];
+                                          var post = widget.userInfo.posts[index];
                                           var viewsDisplay =
                                               getNumberDisplay(post['views']);
                                           var likesDisplay =
@@ -241,7 +291,7 @@ class _DetailedUserState extends State<DetailedUser> {
                                               getNumberDisplay(
                                                   post['dislikes']);
                                           var dateDisplay =
-                                              getDateDisplay(post['date']);
+                                              post['timestamp'];
                                           return Stack(children: [
                                             ListTile(
                                               // an individual previous post
@@ -257,17 +307,21 @@ class _DetailedUserState extends State<DetailedUser> {
                                               trailing: Container(
                                                 height: 60,
                                                 width: 60,
-                                                decoration: const BoxDecoration(
+                                                decoration: BoxDecoration(
                                                     // a preview image of the post
                                                     color: Colors.grey,
                                                     image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6EdI9EP2OioyOrJNAmtb0N3CDsP_jB6w6Gw&usqp=CAU"), //TODO: CHANGE TO "post['image']" when we have images loaded via json
+                                                      image: NetworkImage(post['imageURL']), 
                                                       fit: BoxFit.fill,
                                                     )),
                                               ),
                                               onTap: () {
-                                                // TODO BRINGS THEM TO A DETAILED PAGE ABOUT THE POST
+                                                Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => PostDetails(
+                                                                post: post,
+                                                              )));
                                               },
                                             ),
                                             Row(
@@ -375,6 +429,6 @@ class _DetailedUserState extends State<DetailedUser> {
                                                 ])
                                           ]);
                                         })))))
-                  ]));
+                  ]);},));
   }
 }
